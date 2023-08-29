@@ -6,8 +6,14 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
-      <Footer />
+      <div className="flex flex-row h-screen w-screen overflow-hidden">
+        <div className="h-screen w-screen">
+          <Outlet />
+        </div>
+      </div>
+      <div className="flex-2">
+        <Footer />
+      </div>
     </>
   );
 };
