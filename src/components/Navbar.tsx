@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/aspect-ratio'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
@@ -20,6 +6,7 @@ import {
   ShoppingBagIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import CartMenu from "./CartMenu/CartMenu";
 
 const navigation = {
   categories: [
@@ -157,7 +144,10 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-
+  const [isCartMenuOpen, setCartMenuOpen] = useState(false);
+  const closeCartMenu = () => {
+    setCartMenuOpen(false);
+  };
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -360,10 +350,10 @@ export default function Navbar() {
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
                 <a href="#">
-                  <span className="sr-only">Your Company</span>
+                  <span className="sr-only">Doresu Fashion</span>
                   <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    className=" h-28 w-auto"
+                    src="https://user-images.githubusercontent.com/110303752/263829424-bdddc60e-9d35-43bb-8af2-fd70335eb5db.png"
                     alt=""
                   />
                 </a>
@@ -538,7 +528,11 @@ export default function Navbar() {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
+                  <a
+                    href="#"
+                    className="group -m-2 flex items-center p-2"
+                    onClick={() => setCartMenuOpen(!isCartMenuOpen)}
+                  >
                     <ShoppingBagIcon
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -549,6 +543,12 @@ export default function Navbar() {
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
                 </div>
+                {
+                  <CartMenu
+                    onCloseCart={closeCartMenu}
+                    isCartOpen={isCartMenuOpen}
+                  />
+                }
               </div>
             </div>
           </div>

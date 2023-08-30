@@ -1,9 +1,16 @@
-import Carousel from "../../components/Carousel/home/Carousel";
+import Carousel from "../../components/Carousel/home/Carousel2";
+import MainCarousel from "../../components/Carousel/home/MainCarousel";
+import Category from "../../components/Category/Category";
+import FeaturedProducts from "../../components/FeaturedProducts/FeaturedProducts";
+import HomeFeatured from "../../components/FeaturedProducts/HomeFeatured";
 
 const Home = () => {
   return (
     <>
-      <Carousel />
+      <MainCarousel />
+      <HomeFeatured />
+      <Category />
+      <FeaturedProducts />
     </>
   );
 };
