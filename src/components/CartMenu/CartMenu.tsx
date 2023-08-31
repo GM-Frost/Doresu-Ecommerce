@@ -1,17 +1,15 @@
 import { AiOutlineClose } from "react-icons/ai";
-import { AiOutlinePlus } from "react-icons/ai";
-import { AiOutlineMinus } from "react-icons/ai";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
 const CartMenu = ({ onCloseCart, isCartOpen }) => {
   return (
     <>
       <div
-        className={`fixed z-10 w-[100%] h-[100%] left-0 top-0 overflow-auto bg-black bg-opacity-50 transition-opacity duration-500 ${
+        className={`fixed w-[100%] h-[100%] z-50 left-0 top-0 overflow-auto bg-black bg-opacity-50 transition-opacity duration-500 ${
           isCartOpen ? "opacity-200" : "opacity-0 pointer-events-none"
         }`}
       >
-        <div className="fixed right-0 bottom-0  h-[100%] bg-white shadow-2xl">
+        <div className="fixed right-0 bottom-0 h-[100%] bg-white shadow-2xl">
           <div className="p-[30px] overflow-auto h-[100%]">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-primary">
@@ -68,7 +66,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
                             </div>
                           </div>
 
-                          <div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
+                          <div className="absolute top-0 right-0 sm:bottom-auto sm:top-1/2 transform sm:-translate-y-1/2">
                             <button
                               type="button"
                               className="flex rounded p-2 text-center text-gray-500 transition-all duration-200 ease-in-out focus:shadow hover:text-gray-900"

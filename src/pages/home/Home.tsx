@@ -1,8 +1,8 @@
-import Carousel from "../../components/Carousel/home/Carousel2";
 import MainCarousel from "../../components/Carousel/home/MainCarousel";
 import Category from "../../components/Category/Category";
-import FeaturedProducts from "../../components/FeaturedProducts/FeaturedProducts";
-import HomeFeatured from "../../components/FeaturedProducts/HomeFeatured";
+import ExploreProducts from "../../components/TrendingProducts/ExploreProducts";
+import HomeFeatured from "../../components/TrendingProducts/HomeFeatured";
+import PopularProducts from "../../components/TrendingProducts/PopularProducts";
 
 const Home = () => {
   return (
@@ -10,7 +10,8 @@ const Home = () => {
       <MainCarousel />
       <HomeFeatured />
       <Category />
-      <FeaturedProducts />
+      <ExploreProducts />
+      <PopularProducts />
     </>
   );
 };

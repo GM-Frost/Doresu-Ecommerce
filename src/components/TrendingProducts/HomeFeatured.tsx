@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { BsCartCheckFill } from "react-icons/bs";
+import { AiFillEye } from "react-icons/ai";
 const HomeFeatured = () => {
   const isNoneMobile = window.matchMedia("min-width: 600px").matches;
-
   const categoryData = [
     {
       id: 1,
@@ -135,8 +135,9 @@ const HomeFeatured = () => {
               <p className="text-white text-2xl bg-neutral w-full text-center p-3">
                 $ {item.itemPrice}
               </p>
-              <div className="flex justify-between gap-4">
-                <BsCartCheckFill className=" text-white text-4xl cursor-pointer " />
+              <div className="flex justify-evenly gap-7">
+                <BsCartCheckFill className=" text-white text-4xl cursor-pointer hover:-translate-y-2 hover:transition-all duration-200" />
+                <AiFillEye className=" text-white text-4xl cursor-pointer origin-center  hover:rotate-180 hover:transition-all duration-200" />
               </div>
               <div className="sm:order-1">
                 <div className="mx-auto flex h-8 items-stretch text-gray-600">

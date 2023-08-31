@@ -20,13 +20,13 @@ const Footer = () => {
             <div className="mt-8 grid grid-cols-2 gap-8 lg:mt-0 lg:grid-cols-5 lg:gap-y-16">
               <div className="col-span-2">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    Get the latest news!
+                  <h2 className="text-2xl font-bold text-gray-900 capitalize">
+                    Subscribe To Our Newsletter
                   </h2>
 
                   <p className="mt-4 text-gray-500">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Esse non cupiditate quae nam molestias.
+                    and receive $40 coupon for your first order when you
+                    checkout
                   </p>
                 </div>
               </div>

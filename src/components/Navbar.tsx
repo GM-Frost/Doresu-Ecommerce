@@ -7,6 +7,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import CartMenu from "./CartMenu/CartMenu";
+import { Link } from "react-router-dom";
 
 const navigation = {
   categories: [
@@ -132,10 +133,7 @@ const navigation = {
       ],
     },
   ],
-  pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
-  ],
+  pages: [{ name: "Our Store", href: "/store" }],
 };
 
 function classNames(...classes) {
@@ -349,14 +347,14 @@ export default function Navbar() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link to="/">
                   <span className="sr-only">Doresu Fashion</span>
                   <img
                     className=" h-28 w-auto"
                     src="https://user-images.githubusercontent.com/110303752/263829424-bdddc60e-9d35-43bb-8af2-fd70335eb5db.png"
                     alt=""
                   />
-                </a>
+                </Link>
               </div>
 
               {/* Flyout menus */}
