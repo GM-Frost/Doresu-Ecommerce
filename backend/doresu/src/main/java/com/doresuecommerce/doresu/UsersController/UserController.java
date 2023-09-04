@@ -16,10 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin(origins = "*", allowedHeaders = { "*" })
 @RestController
 @RequestMapping("/api/v1/user/")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = { "*" })
 public class UserController {
 
 	@GetMapping("/details")
