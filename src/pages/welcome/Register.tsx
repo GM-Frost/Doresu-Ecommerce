@@ -115,7 +115,7 @@ const Register = () => {
                       type="text"
                       placeholder="John"
                       name="firstname"
-                      className={inputStyle}
+                      className={`${inputStyle} capitalize`}
                       onChange={handleFormChange}
                     />
                   </div>
@@ -124,7 +124,7 @@ const Register = () => {
                       type="text"
                       placeholder="Doe"
                       name="lastname"
-                      className={inputStyle}
+                      className={`${inputStyle} capitalize`}
                       onChange={handleFormChange}
                     />
                   </div>

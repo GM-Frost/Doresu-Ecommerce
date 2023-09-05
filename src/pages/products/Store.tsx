@@ -23,10 +23,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Store = () => {
+const Store: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  // GETTING PRODUCTS
 
   //SEARCH FILTERs STARTS
   const handleFilter = (value, sectionID) => {
@@ -449,7 +451,7 @@ const Store = () => {
                 <div className="lg:col-span-3 w-full">
                   <div className="flex flex-wrap justify-center bg-white py-5">
                     {productsItems.map((item) => (
-                      <ProductsCard product={item} />
+                      <ProductsCard product={item} key={item.title} />
                     ))}
                   </div>
                 </div>

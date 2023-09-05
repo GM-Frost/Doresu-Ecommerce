@@ -7,7 +7,10 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import CartMenu from "./CartMenu/CartMenu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { RootState } from "../redux/app/Store";
+import { useAppDispatch, useAppSelector } from "../redux/hooks/Hooks";
+import { logout } from "../redux/features/AuthSlice";
 
 const navigation = {
   categories: [
@@ -146,6 +149,11 @@ export default function Navbar() {
   const closeCartMenu = () => {
     setCartMenuOpen(false);
   };
+
+  const user = useAppSelector((state: RootState) => state.auth.userDetails);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -287,22 +295,48 @@ export default function Navbar() {
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <a
-                      href="#"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Sign in
-                    </a>
-                  </div>
-                  <div className="flow-root">
-                    <a
-                      href="#"
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                    >
-                      Create account
-                    </a>
-                  </div>
+                  {!user ? (
+                    <>
+                      <div className="flow-root">
+                        <a
+                          href="#"
+                          className="-m-2 block p-2 font-medium text-gray-900"
+                        >
+                          Sign in
+                        </a>
+                      </div>
+                      <div className="flow-root">
+                        <Link
+                          to="register"
+                          className="-m-2 block p-2 font-medium text-gray-900"
+                        >
+                          Create account
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flow-root">
+                        <a
+                          href="#"
+                          className="-m-2 block p-2 font-medium text-gray-900"
+                        >
+                          Profile
+                        </a>
+                      </div>
+                      <div className="flow-root">
+                        <a
+                          onClick={() => {
+                            dispatch(logout());
+                            navigate("/");
+                          }}
+                          className="cursor-pointer -m-2 block p-2 font-medium text-gray-900"
+                        >
+                          Logout
+                        </a>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="border-t border-gray-200 px-4 py-6">
@@ -483,19 +517,65 @@ export default function Navbar() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Sign in
-                  </a>
-                  <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
-                  <a
-                    href="#"
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    Create account
-                  </a>
+                  {!user ? (
+                    <>
+                      <Link
+                        to="/login"
+                        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                      >
+                        Sign in
+                      </Link>
+
+                      <span
+                        className="h-6 w-px bg-gray-200"
+                        aria-hidden="true"
+                      />
+                      <Link
+                        to="/register"
+                        className="text-sm font-medium text-gray-700 hover:text-gray-800"
+                      >
+                        Create account
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <div className="dropdown dropdown-end">
+                        <label
+                          tabIndex={0}
+                          className="btn btn-ghost btn-circle avatar"
+                        >
+                          <div className="w-10 rounded-full">
+                            <img src="https://img.freepik.com/free-vector/isolated-young-handsome-man-different-poses-white-background-illustration_632498-855.jpg?w=740&t=st=1693865880~exp=1693866480~hmac=e79f770f1bae7f1ec454b1d6f7f0f2eaf018a4c9776a27eecbe742c676c418ef" />
+                          </div>
+                        </label>
+                        <ul
+                          tabIndex={0}
+                          className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                        >
+                          <li>
+                            <a className="justify-between">
+                              Profile
+                              <span className="badge">New</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a>Settings</a>
+                          </li>
+                          <li>
+                            <a
+                              onClick={() => {
+                                dispatch(logout());
+                                navigate("/");
+                              }}
+                            >
+                              Logout
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      Welcome, {user.firstname}
+                    </>
+                  )}
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">

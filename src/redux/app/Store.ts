@@ -4,6 +4,8 @@ import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import AuthSlice from "../features/AuthSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import CartSlice from "../features/CartSlice";
+import { productApi } from "../service/ProductsApi";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -13,7 +15,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
   auth: AuthSlice,
+  cart: CartSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -21,7 +25,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
+    getDefaultMiddleware().concat(authApi.middleware, productApi.middleware),
 });
 
 setupListeners(store.dispatch);

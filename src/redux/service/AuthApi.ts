@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { REHYDRATE } from "redux-persist";
 
 interface ICredential {
   firstname: string;
