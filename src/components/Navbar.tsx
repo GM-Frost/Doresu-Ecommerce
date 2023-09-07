@@ -328,6 +328,14 @@ export default function Navbar() {
                       </div>
                       <div className="flow-root">
                         <a
+                          onClick={() => navigate("/account/orders")}
+                          className="cursor-pointer -m-2 block p-2 font-medium text-gray-900"
+                        >
+                          Your Orders
+                        </a>
+                      </div>
+                      <div className="flow-root">
+                        <a
                           onClick={() => {
                             dispatch(logout());
                             navigate("/");
@@ -561,7 +569,13 @@ export default function Navbar() {
                             </a>
                           </li>
                           <li>
-                            <a>Settings</a>
+                            <a
+                              onClick={() => {
+                                navigate("/account/orders");
+                              }}
+                            >
+                              Your Orders
+                            </a>
                           </li>
                           <li>
                             <a

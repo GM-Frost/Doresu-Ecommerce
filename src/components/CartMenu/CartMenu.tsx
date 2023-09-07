@@ -7,9 +7,16 @@ import {
   removeFromCart,
 } from "../../redux/features/CartSlice";
 import { RootState } from "../../redux/app/Store";
+import { useNavigate } from "react-router-dom";
+import { RadioGroup } from "@headlessui/react";
 
 const CartMenu = ({ onCloseCart, isCartOpen }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   //CART AREA
   const cartProducts = useAppSelector((state: RootState) => state.cart);
@@ -47,6 +54,12 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
     return total;
   };
 
+  const logintocheckout = () => {
+    navigate("/login");
+  };
+  const toCheckout = () => {
+    navigate("/checkout");
+  };
   return (
     <>
       <div
@@ -93,17 +106,15 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
                                   <p className="mx-0 mt-1 mb-0 text-sm text-gray-400">
                                     {item.category.name}
                                   </p>
-                                  <p className="mx-0 mt-3 mb-0 text-md font-bold text-green-600 text-gray-800">
+                                  <p className="mx-0 mt-3 mb-0 text-md font-bold text-green-600 ">
                                     $ {item.price}
                                   </p>
                                 </div>
-
                                 <div className="mt-4 flex items-end justify-between sm:mt-0 sm:items-start sm:justify-end">
                                   <p className="shrink-0 w-20 text-base font-semibold text-gray-900 sm:order-2 sm:ml-8 sm:text-right">
                                     $ {itemTotalPrice(item)}
                                   </p>
-
-                                  <div className="sm:order-1">
+                                  <div className="sm:order-1 flex flex-col">
                                     <div className="mx-auto flex h-8 items-stretch text-gray-600">
                                       <button
                                         onClick={() => decreaseCount(item.id)}
@@ -183,6 +194,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
                       <button
                         type="button"
                         className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                        onClick={toCheckout}
                       >
                         Checkout
                         <svg
@@ -203,8 +215,8 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
                     ) : (
                       <button
                         type="button"
-                        disabled
                         className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                        onClick={logintocheckout}
                       >
                         Checkout
                         <svg

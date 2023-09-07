@@ -29,7 +29,7 @@ const PopularProducts = () => {
   };
 
   const viewProductDetails = (product: IProductTypes) => {
-    dispatch(setSelectedProduct(product)); // Set the selected product in the ProductSelectSlice
+    dispatch(setSelectedProduct(product));
     navigate(`/product/${product.id}`);
   };
 
@@ -37,7 +37,7 @@ const PopularProducts = () => {
     return <Spinner />;
   }
 
-  const displayedProducts = productsItems.slice(0, 12);
+  const displayedProducts = productsItems;
 
   return (
     <>
