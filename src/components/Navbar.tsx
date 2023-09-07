@@ -153,7 +153,9 @@ export default function Navbar() {
   const user = useAppSelector((state: RootState) => state.auth.userDetails);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const cartProducts = useAppSelector((state: RootState) => state.cart);
 
+  //CART ENDS
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -284,12 +286,12 @@ export default function Navbar() {
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   {navigation.pages.map((page) => (
                     <div key={page.name} className="flow-root">
-                      <a
-                        href={page.href}
+                      <Link
+                        to={page.href}
                         className="-m-2 block p-2 font-medium text-gray-900"
                       >
                         {page.name}
-                      </a>
+                      </Link>
                     </div>
                   ))}
                 </div>
@@ -358,14 +360,14 @@ export default function Navbar() {
         </Dialog>
       </Transition.Root>
 
-      <header className="relative bg-white shadow-lg z-10">
+      <header className="relative bg-white shadow-lg z-10 ">
         <p className="flex h-10 items-center justify-center bg-[#34a4b8] px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
         </p>
 
         <nav
           aria-label="Top"
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 "
         >
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center">
@@ -504,13 +506,13 @@ export default function Navbar() {
                   ))}
 
                   {navigation.pages.map((page) => (
-                    <a
+                    <Link
+                      to={page.href}
                       key={page.name}
-                      href={page.href}
                       className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                     >
                       {page.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </Popover.Group>
@@ -611,13 +613,32 @@ export default function Navbar() {
                     className="group -m-2 flex items-center p-2"
                     onClick={() => setCartMenuOpen(!isCartMenuOpen)}
                   >
-                    <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
-                    </span>
+                    {!cartProducts?.items?.length ? (
+                      <>
+                        <ShoppingBagIcon
+                          className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                          aria-hidden="true"
+                        />
+                        <span className="ml-2 text-sm font-medium text-primary group-hover:text-gray-800">
+                          <span className="indicator-item badge badge-ghost text-gray-600">
+                            {cartProducts.items.length}
+                          </span>
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBagIcon
+                          className="h-6 w-6 flex-shrink-0 text-primary group-hover:text-teal-600"
+                          aria-hidden="true"
+                        />
+                        <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                          <span className="indicator-item badge badge-primary text-white">
+                            {cartProducts.items.length}
+                          </span>
+                        </span>
+                      </>
+                    )}
+
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
                 </div>

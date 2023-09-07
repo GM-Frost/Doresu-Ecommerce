@@ -8,11 +8,18 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import { productsItems } from "./FakeProducts";
 import ProductsCard from "./ProductsCard";
 import { filters, singleFilter } from "./FilterData";
 import { IoFilterSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
+import {
+  useGetAllProducts,
+  useGetProductsQuery,
+} from "../../redux/service/ProductsApi";
+import { IProductTypes } from "../../redux/types/ProductsTypes";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -29,7 +36,8 @@ const Store: React.FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // GETTING PRODUCTS
-
+  //const { currentData: productsdItems, isLoading } = useGetProductsQuery([]);
+  const { currentData: productsItems, isLoading } = useGetAllProducts();
   //SEARCH FILTERs STARTS
   const handleFilter = (value, sectionID) => {
     const searchParams = new URLSearchParams(location.search);
@@ -57,8 +65,12 @@ const Store: React.FC = () => {
     navigate({ search: `?${query}` });
   };
   //SEARCH FILTERs ENDS
+
+  // ADD TO CART INFORMATION
+
   return (
     <>
+      <ToastContainer />
       <div className="bg-white">
         <div>
           {/* Mobile filter dialog */}
@@ -450,8 +462,8 @@ const Store: React.FC = () => {
                 {/* Product grid */}
                 <div className="lg:col-span-3 w-full">
                   <div className="flex flex-wrap justify-center bg-white py-5">
-                    {productsItems.map((item) => (
-                      <ProductsCard product={item} key={item.title} />
+                    {productsItems?.map((product: IProductTypes) => (
+                      <ProductsCard product={product} key={product.id} />
                     ))}
                   </div>
                 </div>

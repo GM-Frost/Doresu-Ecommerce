@@ -14,3 +14,6 @@ export const productApi = createApi({
 });
 export const { useGetProductsQuery } = productApi;
 export const useGetProducts = useGetProductsQuery;
+// Export a custom hook for getting all products
+export const useGetAllProducts = () => useGetProductsQuery({}); // Pass any necessary parameters if required by your API
+export default productApi;

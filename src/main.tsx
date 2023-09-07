@@ -9,10 +9,10 @@ import Home from "./pages/home/Home";
 import Product from "./pages/products/Product";
 import Order from "./pages/orders/Order";
 import Store from "./pages/products/Store";
-import ProductsCard from "./pages/products/ProductsCard";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/app/Store";
 import { PersistGate } from "redux-persist/integration/react";
+import Checkout from "./pages/checkout/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +29,6 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/products",
-        element: <ProductsCard />,
-      },
-      {
         path: "/store",
         element: <Store />,
       },
@@ -43,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/orders",
         element: <Order />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },
