@@ -22,13 +22,15 @@ public class Orders {
 	    private String id; 
 	 	private String orderId; 
 	    private String userId;
-	    private Date orderDate;
+	    private String accFirstname;
+	    private String accLastname;
+	    private String accEmail;
+	    private String orderDate;
 	    private String status;
 	    private double totalPrice;
 	 
 	    private DeliveryAddress deliveryAddress;
 
-	   
 	    private List<OrderItem> orderItems;
 
 	  

@@ -16,8 +16,10 @@ public class DeliveryAddress {
 	 	private String firstName;
 	    private String lastName;
 	    private String addressLine;
+	    private String phoneNumber;
 	    private String city;
 	    private String province;
 	    private String postalCode;
 	    private String country;
+	    
 }

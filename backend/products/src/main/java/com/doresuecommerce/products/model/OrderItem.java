@@ -1,6 +1,6 @@
 package com.doresuecommerce.products.model;
 
-import java.util.List;
+
 
 
 import lombok.AllArgsConstructor;
@@ -20,11 +20,9 @@ public class OrderItem {
 	    private String productColor;
 	    private String productSize;
 	    private String category;
+	    private String images;
 	    private int quantity;
 	    private double price;
 	    private double subtotal;
-	   
-	    private List<Image> images;
-
 	    
 }

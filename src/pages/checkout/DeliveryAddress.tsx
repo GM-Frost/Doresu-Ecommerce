@@ -1,14 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Button, Box, TextField } from "@mui/material";
 import AddressCard from "../../components/AddressCard/AddressCard";
 
 import { TbTruckDelivery } from "react-icons/tb";
-const DeliveryAddress = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+import { useAppDispatch } from "../../redux/hooks/Hooks";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { setDeliveryAddress } from "../../redux/features/OrderSummarySlice";
+
+interface IFormInput {
+  firstName: string;
+  lastName: string;
+  addressLine: string;
+  phoneNumber: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
+}
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  addressLine: "",
+  phoneNumber: "",
+  city: "",
+  province: "",
+  postalCode: "",
+  country: "",
+};
+
+const DeliveryAddress: React.FC<DeliveryAddressProps> = ({ onSubmit }) => {
+  const dispatch = useAppDispatch();
+
+  const [formData, setFormData] = useState(initialState);
+  const {
+    firstName,
+    lastName,
+    addressLine,
+    phoneNumber,
+    city,
+    province,
+    postalCode,
+    country,
+  } = formData;
+
+  //REDUX ENDS
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    console.log(formData);
   };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("formed submitted");
+    if (
+      formData.firstName === "" ||
+      formData.lastName === "" ||
+      formData.addressLine === "" ||
+      formData.city === "" ||
+      formData.phoneNumber === "" ||
+      formData.province === "" ||
+      formData.postalCode === "" ||
+      formData.country === ""
+    ) {
+      toast.success("Please enter all the required fields");
+    } else {
+      dispatch(setDeliveryAddress(formData));
+      onSubmit();
+    }
+  };
+
   return (
     <>
+      <ToastContainer />
       <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <div className="flex justify-start item-start space-y-2 flex-col ">
           <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
@@ -36,27 +103,35 @@ const DeliveryAddress = () => {
                         <Grid item xs={12} sm={6}>
                           <TextField
                             required
-                            id="firstname"
-                            name="firstname"
+                            id="firstName"
+                            name="firstName"
                             label="First Name"
+                            value={formData.firstName}
+                            onChange={handleInputChange}
                             fullWidth
                           />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <TextField
                             required
-                            id="lastname"
-                            name="lastname"
+                            id="lastName"
+                            name="lastName"
+                            autoCapitalize="true"
                             label="Last Name"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
                             fullWidth
                           />
                         </Grid>
+
                         <Grid item xs={12}>
                           <TextField
                             required
-                            id="address"
-                            name="address"
+                            id="addressLine"
+                            name="addressLine"
                             label="Address"
+                            value={formData.addressLine}
+                            onChange={handleInputChange}
                             fullWidth
                             multiline
                             rows={4}
@@ -68,6 +143,8 @@ const DeliveryAddress = () => {
                             id="city"
                             name="city"
                             label="City"
+                            value={formData.city}
+                            onChange={handleInputChange}
                             fullWidth
                           />
                         </Grid>
@@ -76,6 +153,8 @@ const DeliveryAddress = () => {
                             required
                             id="province"
                             name="province"
+                            value={formData.province}
+                            onChange={handleInputChange}
                             label="State / Province / Region"
                             fullWidth
                           />
@@ -83,8 +162,10 @@ const DeliveryAddress = () => {
                         <Grid item xs={12} sm={6}>
                           <TextField
                             required
-                            id="postal"
-                            name="postal"
+                            id="postalCode"
+                            name="postalCode"
+                            value={formData.postalCode}
+                            onChange={handleInputChange}
                             label="Postal / Zipcode"
                             fullWidth
                             autoComplete="shipping postal-code"
@@ -93,15 +174,28 @@ const DeliveryAddress = () => {
                         <Grid item xs={12} sm={6}>
                           <TextField
                             required
-                            id="phonenumber"
-                            name="phonenumber"
+                            id="country"
+                            name="country"
+                            value={formData.country}
+                            onChange={handleInputChange}
+                            label="Country"
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <TextField
+                            required
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            value={formData.phoneNumber}
+                            onChange={handleInputChange}
                             label="Contact Number"
                             fullWidth
                           />
                         </Grid>
                         <Grid item xs={12}>
                           <button
-                            type="button"
+                            type="submit"
                             className="btn group inline-flex w-full items-center 
                     border-indigo-900
                     justify-center rounded-md bg-indigo-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-indigo-800"

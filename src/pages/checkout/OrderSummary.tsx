@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/Hooks";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/app/Store";
 import { getCurrentDate } from "./Date";
-
+import { FiPhoneCall } from "react-icons/fi";
+import { BsCheck2Circle } from "react-icons/bs";
+import {
+  setDeliveryAddress,
+  setOrderSummary,
+} from "../../redux/features/OrderSummarySlice";
 const OrderSummary = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  //USER DETAILS AREA
+  const customerDetails = useAppSelector(
+    (state: RootState) => state.orderSummary.deliveryAddress
+  );
+  const loginUser = useAppSelector(
+    (state: RootState) => state.auth.userDetails
+  );
+
   //CART AREA
   const cartProducts = useAppSelector((state: RootState) => state.cart);
   const allCartItems = useAppSelector((state: RootState) => state.cart.items);
@@ -30,6 +44,60 @@ const OrderSummary = () => {
     let tax = 8;
     let total = calculateTotalPrice() + tax;
     return total;
+  };
+
+  const [orderConfirmed, setOrderConfirmed] = useState(false);
+
+  const confirmOrder = () => {
+    // Create an array of order items from allCartItems
+    const orderItems = allCartItems.map((item) => {
+      return {
+        productId: item.id,
+        productName: item.title,
+        productBrand: item.brand,
+        productColor: item.color.name,
+        productSize: item.sizes[0].name, // You may need to adjust this based on your logic
+        category: item.category.name,
+        quantity: item.count,
+        price: item.price,
+        subtotal: item.price * item.count,
+        images: item.images[0].imageUrl,
+      };
+    });
+
+    // Create the delivery address object
+    const deliveryAddress = {
+      firstName: customerDetails?.firstName || "",
+      lastName: customerDetails?.lastName || "",
+      addressLine: customerDetails?.addressLine || "",
+      phoneNumber: customerDetails?.phoneNumber || "",
+      city: customerDetails?.city || "",
+      province: customerDetails?.province || "",
+      postalCode: customerDetails?.postalCode || "",
+      country: customerDetails?.country || "",
+    };
+
+    // Create the order summary object
+    const orderSummary = {
+      orderId: "12345", // Provide the orderId as needed
+      userId: loginUser?.email,
+      accFirstname: loginUser?.firstname,
+      accLastname: loginUser?.lastname,
+      accEmail: loginUser?.email,
+      orderDate: getCurrentDate(),
+      status: "Order Confirmed",
+      totalPrice: calculateTotalPrice().toFixed(2), // Use your total price calculation function
+      deliveryAddress: deliveryAddress,
+      orderItems: orderItems,
+    };
+
+    // Dispatch actions to update the order summary state
+    dispatch(setOrderSummary(orderSummary));
+    dispatch(setDeliveryAddress(deliveryAddress));
+
+    // Set orderConfirmed to true
+    setOrderConfirmed(true);
+    navigate("orderconfirm");
   };
 
   return (
@@ -200,7 +268,8 @@ const OrderSummary = () => {
                   />
                   <div className=" flex justify-start items-start flex-col space-y-2">
                     <p className="text-base font-semibold leading-4 text-left text-gray-800">
-                      David Kent
+                      {customerDetails?.firstName}&nbsp;{" "}
+                      {customerDetails?.lastName}
                     </p>
                     <p className="text-sm leading-5 text-gray-600">
                       10 Previous Orders
@@ -209,28 +278,9 @@ const OrderSummary = () => {
                 </div>
 
                 <div className="flex justify-center  md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5Z"
-                      stroke="#1F2937"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M3 7L12 13L21 7"
-                      stroke="#1F2937"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <FiPhoneCall />
                   <p className="cursor-pointer text-sm leading-5 text-gray-800">
-                    david89@gmail.com
+                    {customerDetails?.phoneNumber}
                   </p>
                 </div>
               </div>
@@ -241,22 +291,26 @@ const OrderSummary = () => {
                       Shipping Address
                     </p>
                     <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                      180 North King Street, Northhampton MA 1060
-                    </p>
-                  </div>
-                  <div className="flex justify-center md:justify-start  items-center md:items-start flex-col space-y-4 ">
-                    <p className="text-base font-semibold leading-4 text-center md:text-left text-gray-800">
-                      Billing Address
-                    </p>
-                    <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                      180 North King Street, Northhampton MA 1060
+                      {customerDetails?.addressLine}&nbsp;
+                      <br />
+                      {customerDetails?.city},&nbsp;
+                      {customerDetails?.province}&nbsp;
+                      {customerDetails?.postalCode}
+                      <br />
+                      {customerDetails?.country}
                     </p>
                   </div>
                 </div>
                 <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-                  <button className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800">
-                    Proceed Payments
-                  </button>
+                  {!orderConfirmed && (
+                    <button
+                      onClick={confirmOrder}
+                      className="flex justify-center hover:text-white gap-4 mt-6 md:mt-0 py-5 hover:bg-indigo-800 focus:outline-none transition-all hover:ease-in-out duration-500 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
+                    >
+                      Confirm Order{" "}
+                      <BsCheck2Circle className="text-green-600" />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

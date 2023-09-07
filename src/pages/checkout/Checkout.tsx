@@ -84,7 +84,11 @@ const Checkout = () => {
                 </Button>
               </Box>
               <div>
-                {activeStep === 1 ? <DeliveryAddress /> : <OrderSummary />}
+                {activeStep === 1 ? (
+                  <DeliveryAddress onSubmit={handleNext} />
+                ) : (
+                  <OrderSummary />
+                )}
               </div>
             </React.Fragment>
           )}

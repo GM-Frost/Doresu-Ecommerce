@@ -7,6 +7,7 @@ import storage from "redux-persist/lib/storage";
 import CartSlice from "../features/CartSlice";
 import { productApi } from "../service/ProductsApi";
 import ProductSelectSlice from "../features/ProductSelectSlice";
+import OrderSummarySlice from "../features/OrderSummarySlice";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   auth: AuthSlice,
   cart: CartSlice,
   productSelect: ProductSelectSlice,
+  orderSummary: OrderSummarySlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -31,11 +33,10 @@ export const store = configureStore({
     getDefaultMiddleware().concat(authApi.middleware, productApi.middleware),
 });
 
-setupListeners(store.dispatch);
+// setupListeners(store.dispatch);
 
-// Create a persistor
 export const persistor = persistStore(store);
 
-// //sending hooks
+//sending hooks
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

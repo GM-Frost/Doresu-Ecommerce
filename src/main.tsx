@@ -14,6 +14,7 @@ import { persistor, store } from "./redux/app/Store";
 import { PersistGate } from "redux-persist/integration/react";
 import Checkout from "./pages/checkout/Checkout";
 import OrderDetails from "./pages/orders/OrderDetails";
+import OrderConfirm from "./pages/checkout/OrderConfirm";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout",
         element: <Checkout />,
+      },
+      {
+        path: "/checkout/orderconfirm",
+        element: <OrderConfirm />,
       },
     ],
   },

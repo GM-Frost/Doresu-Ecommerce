@@ -58,6 +58,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
     navigate("/login");
   };
   const toCheckout = () => {
+    onCloseCart(); // Close the cart
     navigate("/checkout");
   };
   return (
