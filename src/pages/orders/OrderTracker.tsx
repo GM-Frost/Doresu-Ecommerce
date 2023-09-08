@@ -7,8 +7,8 @@ const steps = [
   "Out for Delivery",
   "Delivered",
 ];
-
-const OrderTracker = ({ activeStep }) => {
+const OrderTracker = ({ status }) => {
+  const activeStep = steps.indexOf(status);
   return (
     <>
       <div className="w-full">
@@ -17,7 +17,7 @@ const OrderTracker = ({ activeStep }) => {
             <Step>
               <StepLabel
                 sx={{
-                  color: "#fs2dsx",
+                  color: "#34a4b8",
                   fontSize: "45px",
                 }}
               >

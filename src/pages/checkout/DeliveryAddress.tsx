@@ -8,6 +8,7 @@ import { useAppDispatch } from "../../redux/hooks/Hooks";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setDeliveryAddress } from "../../redux/features/OrderSummarySlice";
+import { setAddress } from "../../redux/features/AddressSlice";
 
 interface IFormInput {
   firstName: string;
@@ -34,7 +35,7 @@ const initialState = {
 const DeliveryAddress: React.FC<DeliveryAddressProps> = ({ onSubmit }) => {
   const dispatch = useAppDispatch();
 
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState<IFormInput>(initialState);
   const {
     firstName,
     lastName,
@@ -68,7 +69,7 @@ const DeliveryAddress: React.FC<DeliveryAddressProps> = ({ onSubmit }) => {
     ) {
       toast.success("Please enter all the required fields");
     } else {
-      dispatch(setDeliveryAddress(formData));
+      dispatch(setAddress(formData));
       onSubmit();
     }
   };

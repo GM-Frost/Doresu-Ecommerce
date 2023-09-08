@@ -8,6 +8,8 @@ import CartSlice from "../features/CartSlice";
 import { productApi } from "../service/ProductsApi";
 import ProductSelectSlice from "../features/ProductSelectSlice";
 import OrderSummarySlice from "../features/OrderSummarySlice";
+import { orderSummaryApi } from "../service/OrderApi";
+import AddressSlice from "../features/AddressSlice";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -18,11 +20,13 @@ const persistConfig = {
 const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
+  [orderSummaryApi.reducerPath]: orderSummaryApi.reducer,
 
   auth: AuthSlice,
   cart: CartSlice,
   productSelect: ProductSelectSlice,
   orderSummary: OrderSummarySlice,
+  address: AddressSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -30,7 +34,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware, productApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      productApi.middleware,
+      orderSummaryApi.middleware
+    ),
 });
 
 // setupListeners(store.dispatch);

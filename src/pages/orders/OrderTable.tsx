@@ -1,139 +1,129 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-const orders = [
-  {
-    orderNumber: 23422,
-    orderName: "Black Tee",
-    orderImage:
-      "https://images.pexels.com/photos/2705752/pexels-photo-2705752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    orderAddress: "Canada",
-    orderStatus: "Delivered",
-    orderItem: 4,
-    orderPrice: 234.43,
-  },
-  {
-    orderNumber: 44332,
-    orderName: "Yellow Tee",
-    orderImage:
-      "https://images.pexels.com/photos/5797579/pexels-photo-5797579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    orderAddress: "Canada",
-    orderStatus: "In Progress",
-    orderItem: 2,
-    orderPrice: 322.43,
-  },
-  {
-    orderNumber: 43321,
-    orderName: "White Tee",
-    orderImage:
-      "https://images.pexels.com/photos/5855528/pexels-photo-5855528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    orderAddress: "Canada",
-    orderStatus: "Shipped",
-    orderItem: 1,
-    orderPrice: 258.43,
-  },
-  {
-    orderNumber: 2342,
-    orderName: "Red Tee",
-    orderImage:
-      "https://images.pexels.com/photos/5855528/pexels-photo-5855528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    orderAddress: "Canada",
-    orderStatus: "Returned",
-    orderItem: 1,
-    orderPrice: 422.43,
-  },
-
-  {
-    orderNumber: 43321,
-    orderName: "White Tee",
-    orderImage:
-      "https://images.pexels.com/photos/5855528/pexels-photo-5855528.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    orderAddress: "Canada",
-    orderStatus: "Cancelled",
-    orderItem: 1,
-    orderPrice: 422.43,
-  },
-];
+import { useAppSelector } from "../../redux/hooks/Hooks";
+import axios from "axios";
+import { RootState } from "../../redux/app/Store";
 
 const OrderTable = () => {
+  const user = useAppSelector((state: RootState) => state.auth.userDetails);
+  const accEmail = user?.email;
+  const userId = user?.email;
+
+  const [orderData, setOrderData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8082/api/v1/orders/user/orders",
+          {
+            params: { accEmail, userId },
+          }
+        );
+
+        setOrderData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [accEmail, userId]);
+
   return (
     <>
       <div className="overflow-x-auto">
-        <table className="table">
-          {/* head */}
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <span>Order Number</span>
-                </label>
-              </th>
-              <th>Name</th>
-              <th>Status</th>
-              <th>Total Item</th>
-              <th>Total Price</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* row 1 */}
-            {orders.map((order) => (
+        {loading ? (
+          <div>Loading...</div>
+        ) : orderData.length === 0 ? (
+          <div>
+            <p className="text-center ">You dont have any orders</p>
+            <img
+              src="https://img.freepik.com/free-vector/empty-concept-illustration_114360-1188.jpg?w=1060&t=st=1694145639~exp=1694146239~hmac=a607cf5b008362299ed19a9cd0e5633493a309949dee4a9007d23daa2c31b547"
+              alt="No Orders Found"
+            />
+          </div>
+        ) : (
+          <table className="table">
+            {/* head */}
+            <thead>
               <tr>
-                <td>
-                  <label>
-                    <span>#{order.orderNumber}</span>
-                  </label>
-                </td>
-                <td>
-                  <div className="flex items-center space-x-3">
-                    <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src={order.orderImage}
-                          alt="Avatar Tailwind CSS Component"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="font-bold">{order.orderName}</div>
-                      <div className="text-sm opacity-50">
-                        {order.orderAddress}
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  Expected Delivery on Sept 02
-                  <br />
-                  <span
-                    className={`badge ${
-                      order.orderStatus === "In Progress"
-                        ? "badge-warning"
-                        : order.orderStatus === "Delivered"
-                        ? "badge-success"
-                        : order.orderStatus === "Cancelled"
-                        ? "badge-error"
-                        : order.orderStatus === "Returned"
-                        ? "badge-info"
-                        : order.orderStatus === "Shipped"
-                        ? "badge-secondary"
-                        : "" // Default class or empty string
-                    } badge-sm w-full h-full text-center`}
-                  >
-                    {order.orderStatus}
-                  </span>
-                </td>
-                <td>{order.orderItem}</td>
-                <td>$ {order.orderPrice}</td>
                 <th>
-                  <Link to={`/account/orders/${order.orderNumber}`}>
-                    <button className="btn btn-ghost btn-xs">details</button>
-                  </Link>
+                  <label>
+                    <span>Order Number</span>
+                  </label>
                 </th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Total Item</th>
+                <th>Total Price</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {orderData.map((order) => (
+                <tr>
+                  <td>
+                    <label>
+                      <span>#{order.orderId}</span>
+                    </label>
+                  </td>
+                  <td>
+                    <div className="flex items-center space-x-3">
+                      <div className="avatar">
+                        <div className="mask mask-squircle w-12 h-12">
+                          <img
+                            src={order.orderItems[0].images}
+                            alt="Avatar Tailwind CSS Component"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-bold">{order.orderName}</div>
+                        <div className="text-sm opacity-50">
+                          {order.country}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    Expected Delivery on {order.expectedDate}
+                    <br />
+                    <span
+                      className={`badge ${
+                        order.status === "Order Confirmed"
+                          ? "badge-ghost"
+                          : order.status === "Delivered"
+                          ? "badge-success text-white"
+                          : order.status === "Out for Delivery"
+                          ? "bg-primary border-primary text-white"
+                          : order.status === "Cancelled"
+                          ? "badge-error text-white"
+                          : order.status === "Returned"
+                          ? "badge-warning"
+                          : order.status === "Shipped"
+                          ? "badge-info text-white"
+                          : "" // Default class or empty string
+                      } badge-sm w-full h-full text-center`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td>{order.orderItems.length}</td>
+                  <td>$ {order.totalPrice}</td>
+                  <th>
+                    <Link to={`/account/orders/${order.orderId}`}>
+                      <button className="btn btn-ghost btn-xs">details</button>
+                    </Link>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

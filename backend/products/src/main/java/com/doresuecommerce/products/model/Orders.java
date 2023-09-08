@@ -26,6 +26,7 @@ public class Orders {
 	    private String accLastname;
 	    private String accEmail;
 	    private String orderDate;
+	    private String expectedDate;
 	    private String status;
 	    private double totalPrice;
 	 

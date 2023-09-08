@@ -23,9 +23,6 @@ public class OrderService {
 		return orderRepo.findAll();
 	}
 	
-	public Optional<Orders>getOrderById(String orderId){
-		return orderRepo.findById(orderId);
-	}
 	
 	public Orders createOrder(Orders order ) {
 		 String nextOrderId = getNextOrderId();
@@ -53,4 +50,17 @@ public class OrderService {
 	public void deleteOrder(String orderId) {
 		orderRepo.deleteById(orderId);
 	}
+
+
+	 public List<Orders> getOrdersByAccEmailOrUserId(String accEmail, String userId) {
+	        return orderRepo.findByAccEmailOrUserId(accEmail, userId);
+	    }
+
+	 
+		public Orders getOrderByID(String orderId) {
+			return orderRepo.findByOrderId(orderId);
+		}
+
+
+	
 }

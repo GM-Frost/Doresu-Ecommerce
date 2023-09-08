@@ -1,8 +1,13 @@
 import { Box, Grid } from "@mui/material";
 import OrderTable from "./OrderTable";
-import { BsFilterCircle } from "react-icons/bs";
+
 import { BiPurchaseTag } from "react-icons/bi";
+
 const orderStatus = [
+  {
+    label: "Order Placed",
+    value: "OrderConfirmed",
+  },
   {
     label: "Shipped",
     value: "Shipped",

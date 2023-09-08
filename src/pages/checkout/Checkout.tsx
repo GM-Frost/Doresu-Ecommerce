@@ -1,11 +1,11 @@
-import * as React from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useLocation, useNavigation } from "react-router-dom";
+import { useLocation, useNavigate, useNavigation } from "react-router-dom";
 import DeliveryAddress from "./DeliveryAddress";
 import OrderSummary from "./OrderSummary";
 
@@ -14,9 +14,10 @@ const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
 const Checkout = () => {
   const location = useLocation();
   const navigation = useNavigation();
+  const navigateRouter = useNavigate();
 
   // Get the current step from localStorage or default to step 0
-  const initialStep = parseInt(localStorage.getItem("activeStep"), 10) || 0;
+  const initialStep = parseInt(localStorage.getItem("activeStep"), 1) || 0;
 
   const [activeStep, setActiveStep] = React.useState(initialStep);
 
@@ -37,7 +38,7 @@ const Checkout = () => {
     localStorage.setItem("activeStep", step.toString());
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("step", step);
-    navigation(`?${searchParams.toString()}`);
+    navigateRouter(`?${searchParams.toString()}`);
   };
 
   return (

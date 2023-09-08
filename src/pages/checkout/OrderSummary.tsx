@@ -2,28 +2,33 @@ import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks/Hooks";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/app/Store";
-import { getCurrentDate } from "./Date";
+import { getCurrentDate, getExpectedDate } from "./Date";
 import { FiPhoneCall } from "react-icons/fi";
 import { BsCheck2Circle } from "react-icons/bs";
 import {
-  setDeliveryAddress,
-  setOrderSummary,
+  OrderSummaryState,
+  setOrdersState,
 } from "../../redux/features/OrderSummarySlice";
-const OrderSummary = () => {
+import { clearCart } from "../../redux/features/CartSlice";
+import { useCreateOrderSummaryMutation } from "../../redux/service/OrderApi";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { clearAddress } from "../../redux/features/AddressSlice";
+
+const OrderSummary: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  //USER DETAILS AREA
-  const customerDetails = useAppSelector(
-    (state: RootState) => state.orderSummary.deliveryAddress
-  );
+  //----------------------USER DETAILS AREA
   const loginUser = useAppSelector(
     (state: RootState) => state.auth.userDetails
   );
 
-  //CART AREA
+  //----------------------CART AREA
+
   const cartProducts = useAppSelector((state: RootState) => state.cart);
   const allCartItems = useAppSelector((state: RootState) => state.cart.items);
+  const deliveryAddress = useAppSelector((state: RootState) => state.address);
 
   const itemTotalPrice = (item) => {
     const totalPrice = item.price * item.count;
@@ -46,62 +51,82 @@ const OrderSummary = () => {
     return total;
   };
 
-  const [orderConfirmed, setOrderConfirmed] = useState(false);
+  //----------------------CART AREA ENDS --------------------------------
 
-  const confirmOrder = () => {
-    // Create an array of order items from allCartItems
-    const orderItems = allCartItems.map((item) => {
-      return {
-        productId: item.id,
-        productName: item.title,
-        productBrand: item.brand,
-        productColor: item.color.name,
-        productSize: item.sizes[0].name, // You may need to adjust this based on your logic
-        category: item.category.name,
-        quantity: item.count,
-        price: item.price,
-        subtotal: item.price * item.count,
-        images: item.images[0].imageUrl,
-      };
-    });
+  //----------------------REDUX MUTATION--------------------------------
 
-    // Create the delivery address object
-    const deliveryAddress = {
-      firstName: customerDetails?.firstName || "",
-      lastName: customerDetails?.lastName || "",
-      addressLine: customerDetails?.addressLine || "",
-      phoneNumber: customerDetails?.phoneNumber || "",
-      city: customerDetails?.city || "",
-      province: customerDetails?.province || "",
-      postalCode: customerDetails?.postalCode || "",
-      country: customerDetails?.country || "",
+  const [orderSummary, setOrderSummary] = useState<
+    OrderSummaryState | undefined
+  >();
+
+  const [
+    orderConfirmed,
+    { data: orderConfirmResponse, isSuccess: orderConfirmSuccess },
+  ] = useCreateOrderSummaryMutation();
+
+  const orderItems = allCartItems.map((item) => {
+    return {
+      productId: item.id,
+      productName: item.title,
+      productBrand: item.brand,
+      productColor: item.color.name,
+      productSize: item.sizes[0].name, // You may need to adjust this based on your logic
+      category: item.category.name,
+      quantity: item.count,
+      price: item.price,
+      subtotal: item.price * item.count,
+      images: item.images[0].imageUrl,
     };
+  });
 
-    // Create the order summary object
-    const orderSummary = {
-      orderId: "12345", // Provide the orderId as needed
-      userId: loginUser?.email,
-      accFirstname: loginUser?.firstname,
-      accLastname: loginUser?.lastname,
-      accEmail: loginUser?.email,
-      orderDate: getCurrentDate(),
-      status: "Order Confirmed",
-      totalPrice: calculateTotalPrice().toFixed(2), // Use your total price calculation function
-      deliveryAddress: deliveryAddress,
-      orderItems: orderItems,
-    };
-
-    // Dispatch actions to update the order summary state
-    dispatch(setOrderSummary(orderSummary));
-    dispatch(setDeliveryAddress(deliveryAddress));
-
-    // Set orderConfirmed to true
-    setOrderConfirmed(true);
-    navigate("orderconfirm");
+  // Create the delivery address object
+  const createDeliveryAddress = {
+    firstName: deliveryAddress?.firstName,
+    lastName: deliveryAddress?.lastName,
+    addressLine: deliveryAddress?.addressLine,
+    phoneNumber: deliveryAddress?.phoneNumber,
+    city: deliveryAddress?.city,
+    province: deliveryAddress?.province,
+    postalCode: deliveryAddress?.postalCode,
+    country: deliveryAddress?.country,
   };
 
+  const orderSummaryData = {
+    orderId: "12345",
+    userId: loginUser?.email,
+    accFirstname: loginUser?.firstname,
+    accLastname: loginUser?.lastname,
+    accEmail: loginUser?.email,
+    orderDate: getCurrentDate(),
+    expectedDate: getExpectedDate(),
+    status: "Order Confirmed",
+    totalPrice: calculateTotalPrice().toFixed(2),
+    deliveryAddress: createDeliveryAddress,
+    orderItems: orderItems,
+  };
+
+  const confirmOrderSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await orderConfirmed(orderSummaryData);
+      toast.success("Order Confirmed");
+    } catch (error) {
+      console.error("Error confirming order:", error);
+      toast.error("Error confirming order. Please try again later.");
+    }
+  };
+
+  useEffect(() => {
+    if (orderConfirmSuccess && orderConfirmResponse) {
+      dispatch(setOrdersState(orderSummaryData));
+      dispatch(clearAddress());
+      dispatch(clearCart());
+      navigate("orderconfirm");
+    }
+  }, [orderConfirmSuccess]);
   return (
     <>
+      <ToastContainer />
       <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <div className="flex justify-start item-start space-y-2 flex-col ">
           <h1 className="text-3xl lg:text-4xl font-semibold leading-7 lg:leading-9  text-gray-800">
@@ -268,8 +293,8 @@ const OrderSummary = () => {
                   />
                   <div className=" flex justify-start items-start flex-col space-y-2">
                     <p className="text-base font-semibold leading-4 text-left text-gray-800">
-                      {customerDetails?.firstName}&nbsp;{" "}
-                      {customerDetails?.lastName}
+                      {deliveryAddress?.firstName}&nbsp;{" "}
+                      {deliveryAddress?.lastName}
                     </p>
                     <p className="text-sm leading-5 text-gray-600">
                       10 Previous Orders
@@ -280,7 +305,7 @@ const OrderSummary = () => {
                 <div className="flex justify-center  md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
                   <FiPhoneCall />
                   <p className="cursor-pointer text-sm leading-5 text-gray-800">
-                    {customerDetails?.phoneNumber}
+                    {deliveryAddress?.phoneNumber}
                   </p>
                 </div>
               </div>
@@ -291,26 +316,24 @@ const OrderSummary = () => {
                       Shipping Address
                     </p>
                     <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                      {customerDetails?.addressLine}&nbsp;
+                      {deliveryAddress?.addressLine}&nbsp;
                       <br />
-                      {customerDetails?.city},&nbsp;
-                      {customerDetails?.province}&nbsp;
-                      {customerDetails?.postalCode}
+                      {deliveryAddress?.city},&nbsp;
+                      {deliveryAddress?.province}&nbsp;
+                      {deliveryAddress?.postalCode}
                       <br />
-                      {customerDetails?.country}
+                      {deliveryAddress?.country}
                     </p>
                   </div>
                 </div>
                 <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-                  {!orderConfirmed && (
-                    <button
-                      onClick={confirmOrder}
-                      className="flex justify-center hover:text-white gap-4 mt-6 md:mt-0 py-5 hover:bg-indigo-800 focus:outline-none transition-all hover:ease-in-out duration-500 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
-                    >
-                      Confirm Order{" "}
-                      <BsCheck2Circle className="text-green-600" />
-                    </button>
-                  )}
+                  <button
+                    type="submit"
+                    onClick={confirmOrderSubmit}
+                    className="flex justify-center hover:text-white gap-4 mt-6 md:mt-0 py-5 hover:bg-indigo-800 focus:outline-none transition-all hover:ease-in-out duration-500 focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800"
+                  >
+                    Confirm Order <BsCheck2Circle className="text-green-600" />
+                  </button>
                 </div>
               </div>
             </div>

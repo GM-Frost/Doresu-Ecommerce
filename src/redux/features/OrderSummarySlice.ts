@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IOrderItem {
   productId: string;
@@ -12,17 +12,8 @@ interface IOrderItem {
   subtotal: number;
   images: string;
 }
-interface IDeliveryAddress {
-  firstName: string;
-  lastName: string;
-  addressLine: string;
-  phoneNumber: string;
-  city: string;
-  province: string;
-  postalCode: string;
-  country: string;
-}
-interface OrderSummaryState {
+
+export interface OrderSummaryState {
   orderId: string;
   userId: string;
   accFirstname: string;
@@ -31,8 +22,19 @@ interface OrderSummaryState {
   orderDate: string;
   status: string;
   totalPrice: number;
-  deliveryAddress: IDeliveryAddress | null;
+  deliveryAddress: {
+    firstName: string;
+    lastName: string;
+    addressLine: string;
+    phoneNumber: string;
+    city: string;
+    province: string;
+    postalCode: string;
+    country: string;
+  };
   orderItems: IOrderItem[];
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: OrderSummaryState = {
@@ -44,25 +46,48 @@ const initialState: OrderSummaryState = {
   orderDate: "",
   status: "",
   totalPrice: 0,
-  deliveryAddress: null,
+  deliveryAddress: {
+    firstName: "",
+    lastName: "",
+    addressLine: "",
+    phoneNumber: "",
+    city: "",
+    province: "",
+    postalCode: "",
+    country: "",
+  },
   orderItems: [],
+  loading: false,
+  error: null,
 };
 
-const orderSummarySlice = createSlice({
-  name: "orderSummary",
+const createOrderSummarySlice = createSlice({
+  name: "createOrderSummary",
   initialState,
   reducers: {
-    // Add actions for adding/removing order items and setting the delivery address
-    setOrderSummary: (state, action: PayloadAction<OrderSummaryState>) => {
-      return { ...state, ...action.payload };
+    createOrderSummaryRequest: (state) => {
+      state.loading = true;
+      state.error = null;
     },
-    setDeliveryAddress: (state, action: PayloadAction<IDeliveryAddress>) => {
-      state.deliveryAddress = action.payload;
+    createOrderSummarySuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
+    createOrderSummaryFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    setOrdersState: (state, action: PayloadAction<OrderSummaryState>) => {
+      return action.payload;
     },
   },
 });
 
-export const { setOrderSummary, setDeliveryAddress } =
-  orderSummarySlice.actions;
+export const {
+  createOrderSummaryRequest,
+  createOrderSummarySuccess,
+  createOrderSummaryFailure,
+  setOrdersState,
+} = createOrderSummarySlice.actions;
 
-export default orderSummarySlice.reducer;
+export default createOrderSummarySlice.reducer;
