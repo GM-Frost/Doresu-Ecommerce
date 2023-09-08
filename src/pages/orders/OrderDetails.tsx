@@ -59,7 +59,6 @@ const OrderDetails: React.FC = () => {
         );
 
         setOrderDetailsData(response.data);
-        console.log(orderDetailsData);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }

@@ -1,6 +1,10 @@
 import React from "react";
 import { FiPhoneCall } from "react-icons/fi";
+import { useAppSelector } from "../../redux/hooks/Hooks";
+import { RootState } from "../../redux/app/Store";
 const AddressCard = () => {
+  const addressDetails = useAppSelector((state: RootState) => state.address);
+
   return (
     <>
       <div className="flex  flex-col md:flex-row xl:flex-col justify-start items-stretch h-full w-full md:space-x-6 lg:space-x-8 xl:space-x-0 ">
@@ -27,13 +31,13 @@ const AddressCard = () => {
               />
             </svg>
             <p className="cursor-pointer text-sm leading-5 text-gray-800">
-              david89@gmail.com
+              {addressDetails.firstName}&nbsp;{addressDetails.lastName}
             </p>
           </div>
           <div className="flex justify-center md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
             <FiPhoneCall className="text-2xl" />
             <p className="cursor-pointer text-sm leading-5 text-gray-800">
-              +1 438-8844-8488
+              {addressDetails.phoneNumber}
             </p>
           </div>
         </div>
@@ -44,15 +48,13 @@ const AddressCard = () => {
                 Shipping Address
               </p>
               <p className="w-48 lg:w-full xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">
-                180 North King Street, Northhampton MA 1060
+                {addressDetails.addressLine},&nbsp;{addressDetails.city}&nbsp;
+                {addressDetails.province}&nbsp;{addressDetails.postalCode}
+                <br />
+                {addressDetails.country}
               </p>
             </div>
             <hr />
-          </div>
-          <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-            <button className="mt-6 md:mt-0 py-5 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 border border-gray-800 font-medium w-96 2xl:w-full text-base leading-4 text-gray-800">
-              Use Address
-            </button>
           </div>
         </div>
       </div>

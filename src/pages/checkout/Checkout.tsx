@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import { useLocation, useNavigate, useNavigation } from "react-router-dom";
 import DeliveryAddress from "./DeliveryAddress";
 import OrderSummary from "./OrderSummary";
+import { useAppSelector } from "../../redux/hooks/Hooks";
+import { RootState } from "../../redux/app/Store";
 
 const steps = ["Login", "Delivery Address", "Order Summary", "Payment"];
 
@@ -17,7 +19,7 @@ const Checkout = () => {
   const navigateRouter = useNavigate();
 
   // Get the current step from localStorage or default to step 0
-  const initialStep = parseInt(localStorage.getItem("activeStep"), 1) || 0;
+  const initialStep = parseInt(localStorage.getItem("activeStep"), 1) || 1;
 
   const [activeStep, setActiveStep] = React.useState(initialStep);
 
@@ -39,6 +41,16 @@ const Checkout = () => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("step", step);
     navigateRouter(`?${searchParams.toString()}`);
+  };
+  const addressDetails = useAppSelector((state: RootState) => state.address);
+
+  const isAddressDetailsEmpty = (details) => {
+    for (const key in details) {
+      if (details[key]) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return (
@@ -70,17 +82,31 @@ const Checkout = () => {
           ) : (
             <React.Fragment>
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                  color="inherit"
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  sx={{ mr: 1 }}
-                >
-                  Back
-                </Button>
+                {activeStep > 1 ? (
+                  <Button
+                    color="inherit"
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                ) : (
+                  <Button
+                    color="inherit"
+                    disabled
+                    onClick={handleBack}
+                    sx={{ mr: 1 }}
+                  >
+                    Back
+                  </Button>
+                )}
                 <Box sx={{ flex: "1 1 auto" }} />
 
-                <Button onClick={handleNext}>
+                <Button
+                  onClick={handleNext}
+                  disabled={isAddressDetailsEmpty(addressDetails)}
+                >
                   {activeStep === steps.length - 1 ? "Finish" : "Next"}
                 </Button>
               </Box>

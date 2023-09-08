@@ -95,7 +95,7 @@ const OrderTable = () => {
                     <span
                       className={`badge ${
                         order.status === "Order Confirmed"
-                          ? "badge-ghost"
+                          ? "bg-orange-100 border-orange-100"
                           : order.status === "Delivered"
                           ? "badge-success text-white"
                           : order.status === "Out for Delivery"

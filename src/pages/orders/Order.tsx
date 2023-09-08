@@ -6,6 +6,10 @@ import { BiPurchaseTag } from "react-icons/bi";
 const orderStatus = [
   {
     label: "Order Placed",
+    value: "OrderPlaced",
+  },
+  {
+    label: "Confirmed Order",
     value: "OrderConfirmed",
   },
   {

@@ -99,7 +99,7 @@ const OrderSummary: React.FC = () => {
     accEmail: loginUser?.email,
     orderDate: getCurrentDate(),
     expectedDate: getExpectedDate(),
-    status: "Order Confirmed",
+    status: "Order Placed",
     totalPrice: calculateTotalPrice().toFixed(2),
     deliveryAddress: createDeliveryAddress,
     orderItems: orderItems,
@@ -109,7 +109,7 @@ const OrderSummary: React.FC = () => {
     e.preventDefault();
     try {
       const response = await orderConfirmed(orderSummaryData);
-      toast.success("Order Confirmed");
+      toast.success("Order Placed");
     } catch (error) {
       console.error("Error confirming order:", error);
       toast.error("Error confirming order. Please try again later.");
@@ -268,7 +268,7 @@ const OrderSummary: React.FC = () => {
                         DPD Delivery
                         <br />
                         <span className="font-normal">
-                          Delivery with 24 Hours
+                          Delivery within 4 Days
                         </span>
                       </p>
                     </div>

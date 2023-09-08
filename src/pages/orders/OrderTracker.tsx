@@ -1,7 +1,7 @@
 import { Step, StepLabel, Stepper } from "@mui/material";
 
 const steps = [
-  "Placed",
+  "Order Placed",
   "Order Confirmed",
   "Shipped",
   "Out for Delivery",

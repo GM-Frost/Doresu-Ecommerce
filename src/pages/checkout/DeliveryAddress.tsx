@@ -51,12 +51,10 @@ const DeliveryAddress: React.FC<DeliveryAddressProps> = ({ onSubmit }) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    console.log(formData);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("formed submitted");
     if (
       formData.firstName === "" ||
       formData.lastName === "" ||
@@ -86,7 +84,7 @@ const DeliveryAddress: React.FC<DeliveryAddressProps> = ({ onSubmit }) => {
         <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch  w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
           <div className="bg-white  shadow-md w-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col ">
             <h3 className="text-xl font-semibold leading-5 text-gray-800">
-              Your Addresses
+              Your Current Address
             </h3>
             <AddressCard />
           </div>
