@@ -1,11 +1,5 @@
 import { Box } from "@mui/material";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbar,
-  GridValueGetterParams,
-} from "@mui/x-data-grid";
-import "./styles.css";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,11 +10,9 @@ type ITypes = {
   slug: string;
 };
 
-const handleDelete = (id: number) => {
-  //DELET THE ID FROM DATABASE
-  //axios.delete(`/api/${slug}/id`)
-};
-const UserDataTable = (props: ITypes) => {
+const handleDelete = (id: number) => {};
+
+const OrderDataTable = (props: ITypes) => {
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
@@ -28,12 +20,12 @@ const UserDataTable = (props: ITypes) => {
     renderCell: (params) => {
       return (
         <div className="action flex justify-between gap-2">
-          <Link to={`${params.row.id}`}>
+          <Link to={`${params.row.orderId}`}>
             <VisibilityIcon className="text-blue-600" />
           </Link>
           <div
             className="delete cursor-pointer"
-            onClick={() => handleDelete(params.row.id)}
+            onClick={() => handleDelete(params.row.orderId)}
           >
             <DeleteForeverIcon className="text-red-600" />
           </div>
@@ -41,10 +33,18 @@ const UserDataTable = (props: ITypes) => {
       );
     },
   };
+
   return (
     <>
       <div className="dataTable">
-        <Box sx={{ height: "400", width: "100%" }}>
+        <Box
+          sx={{
+            height: "400",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <DataGrid
             className="bg-white p-5"
             rows={props.rows}
@@ -76,4 +76,4 @@ const UserDataTable = (props: ITypes) => {
   );
 };
 
-export default UserDataTable;
+export default OrderDataTable;

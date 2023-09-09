@@ -15,7 +15,5 @@ import lombok.NoArgsConstructor;
 @Document(collection = "categories")
 public class Category {
 
-	@Id
-	private String id;
     private String name;
 }

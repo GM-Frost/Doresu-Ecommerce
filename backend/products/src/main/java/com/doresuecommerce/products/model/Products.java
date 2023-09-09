@@ -25,18 +25,8 @@ public class Products {
     private String description;
     private double price;
     private String brand;
-    
-    @DBRef
-    private Color color;
-
-    
-    @DBRef
-    private List<Size> sizes;
-
-
-    @DBRef
-    private List<Image> images;
-
-    @DBRef
-    private Category category;
+    private String color;
+    private String[] sizes; 
+    private String[] images;
+    private String category;
 }

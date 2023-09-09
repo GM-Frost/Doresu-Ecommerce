@@ -49,56 +49,9 @@ public class ProductsController {
 	  // Create Product
 	@PostMapping("/create")
     public Products createProduct(@RequestBody Products product) {
-		
-		  // Check if the product has a category specified by ID
-		 if (product.getCategory() != null && product.getCategory().getName() != null) {
-	            // Try to find the category by name, or create it if it doesn't exist
-	            Category category = categoryService.getCategoryByName(product.getCategory().getName());
-	            if (category == null) {
-	                // Category doesn't exist, create a new one
-	                category = categoryService.createCategory(product.getCategory().getName());
-	            }
-	            // Update the product's category field with the existing or new category
-	            product.setCategory(category);
-	        }
-        
-        // Check if the product has a color specified by name
-        if (product.getColor() != null && product.getColor().getName() != null) {
-            // Try to find the color by name, or create it if it doesn't exist
-            Color color = colorService.getOrCreateColorByName(product.getColor().getName());
-            product.setColor(color);
-        }
-
-        // Check if the product has sizes specified by names
-        if (product.getSizes() != null) {
-            for (Size size : product.getSizes()) {
-                if (size.getName() != null) {
-                    // Try to find the size by name, or create it if it doesn't exist
-                    Size existingSize = sizeService.getSizeByName(size.getName());
-                    if (existingSize == null) {
-                        // Size doesn't exist, create a new one
-                        existingSize = sizeService.createSize(size);
-                    }
-                    // Update the product's sizes list with the existing or new size
-                    size.setId(existingSize.getId());
-                }
-            }
-        }
-
-        // Check if the product has images specified by URLs
-        if (product.getImages() != null) {
-        	List<Image> newImages = new ArrayList<>();
-        	for (Image image : product.getImages()) {
-        	    if (image.getImageUrl() != null) {
-        	        // Create the image
-        	        Image newImage = imageService.createImage(image);
-        	        newImages.add(newImage);
-        	    }
-        	}
-        	product.setImages(newImages);
-        }
-
+	
         return productService.createProduct(product);
+  
     }
 
     // Get a product by ID

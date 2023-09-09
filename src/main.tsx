@@ -22,6 +22,8 @@ import ProductPage from "./Admin/Home/ProductPage/SingleProduct";
 import AdminUsers from "./Admin/Home/UserPage/AdminUsers";
 import SingleUser from "./Admin/Home/UserPage/SingleUser";
 import SingleProduct from "./Admin/Home/ProductPage/SingleProduct";
+import AdminOrders from "./Admin/Home/OrderPage/AdminOrders";
+import SingleOrder from "./Admin/Home/OrderPage/SingleOrder";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +35,8 @@ const router = createBrowserRouter([
       { path: "products/:id", element: <SingleProduct /> },
       { path: "users", element: <AdminUsers /> },
       { path: "users/:id", element: <SingleUser /> },
+      { path: "orders", element: <AdminOrders /> },
+      { path: "orders/:orderID", element: <SingleOrder /> },
     ],
   },
   {

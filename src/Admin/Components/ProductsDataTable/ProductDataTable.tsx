@@ -1,11 +1,5 @@
 import { Box } from "@mui/material";
-import {
-  DataGrid,
-  GridColDef,
-  GridToolbar,
-  GridValueGetterParams,
-} from "@mui/x-data-grid";
-import "./styles.css";
+import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -16,11 +10,35 @@ type ITypes = {
   slug: string;
 };
 
-const handleDelete = (id: number) => {
-  //DELET THE ID FROM DATABASE
-  //axios.delete(`/api/${slug}/id`)
+const handleDelete = (id: number) => {};
+
+const renderImage = (images: string[]) => {
+  return (
+    <div className="image-column flex gap-2">
+      {images.map((image, index) => (
+        <img
+          key={index}
+          src={image}
+          alt={`Image ${index + 1}`}
+          className="rounded-lg"
+          width={25}
+          height={25}
+        />
+      ))}
+    </div>
+  );
 };
-const UserDataTable = (props: ITypes) => {
+const renderSizes = (sizes: string[]) => {
+  return (
+    <div className="sizes-column flex gap-2">
+      {sizes.map((size, index) => (
+        <div key={index}>{size}</div>
+      ))}
+    </div>
+  );
+};
+
+const ProductDataTable = (props: ITypes) => {
   const actionColumn: GridColDef = {
     field: "action",
     headerName: "Action",
@@ -41,14 +59,37 @@ const UserDataTable = (props: ITypes) => {
       );
     },
   };
+
+  const columnsWithRenderers = props.columns.map((column) => {
+    if (column.field === "images") {
+      return {
+        ...column,
+        renderCell: (params) => renderImage(params.row.images),
+      };
+    } else if (column.field === "sizes") {
+      return {
+        ...column,
+        renderCell: (params) => renderSizes(params.row.sizes),
+      };
+    }
+    return column;
+  });
+
   return (
     <>
       <div className="dataTable">
-        <Box sx={{ height: "400", width: "100%" }}>
+        <Box
+          sx={{
+            height: "400",
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <DataGrid
             className="bg-white p-5"
             rows={props.rows}
-            columns={[...props.columns, actionColumn]}
+            columns={[...columnsWithRenderers, actionColumn]}
             initialState={{
               pagination: {
                 paginationModel: {
@@ -76,4 +117,4 @@ const UserDataTable = (props: ITypes) => {
   );
 };
 
-export default UserDataTable;
+export default ProductDataTable;

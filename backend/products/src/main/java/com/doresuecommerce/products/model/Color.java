@@ -15,7 +15,5 @@ import lombok.NoArgsConstructor;
 @Document(collection = "colors")
 public class Color {
 
-	 @Id
-	    private String id;
 	    private String name;
 }

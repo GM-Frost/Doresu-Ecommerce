@@ -53,11 +53,6 @@ public class CategoryController {
 	        return categoryService.getAllCategories();
 	    }
 	 
-	 @PutMapping("/{id}")
-	    public Category updateCategory(@PathVariable String id, @RequestBody Category category) {
-	        return categoryService.updateCategory(id, category);
-	    }
-
 	    @DeleteMapping("/{id}")
 	    public void deleteCategory(@PathVariable String id) {
 	        categoryService.deleteCategory(id);

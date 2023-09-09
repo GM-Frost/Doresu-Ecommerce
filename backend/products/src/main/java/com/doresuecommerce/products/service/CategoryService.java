@@ -36,8 +36,8 @@ public class CategoryService {
 	        return categoryRepo.findById(id).orElse(null);
 	    }
 
-	    public Category updateCategory(String id, Category category) {
-	        category.setId(id);
+	    public Category updateCategory( Category category) {
+	    
 	        return categoryRepo.save(category);
 	    }
 
