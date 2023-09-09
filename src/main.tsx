@@ -15,8 +15,26 @@ import { PersistGate } from "redux-persist/integration/react";
 import Checkout from "./pages/checkout/Checkout";
 import OrderDetails from "./pages/orders/OrderDetails";
 import OrderConfirm from "./pages/checkout/OrderConfirm";
+import AdminDash from "./Admin/Home/AdminDash";
+import Dashboard from "./Admin/Home/Dashboard";
+import AdminProducts from "./Admin/Home/ProductPage/AdminProducts";
+import ProductPage from "./Admin/Home/ProductPage/SingleProduct";
+import AdminUsers from "./Admin/Home/UserPage/AdminUsers";
+import SingleUser from "./Admin/Home/UserPage/SingleUser";
+import SingleProduct from "./Admin/Home/ProductPage/SingleProduct";
 
 const router = createBrowserRouter([
+  {
+    path: "/admin",
+    element: <AdminDash />,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "products", element: <AdminProducts /> },
+      { path: "products/:id", element: <SingleProduct /> },
+      { path: "users", element: <AdminUsers /> },
+      { path: "users/:id", element: <SingleUser /> },
+    ],
+  },
   {
     path: "/login",
     element: <Login />,
