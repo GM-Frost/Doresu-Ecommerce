@@ -9,10 +9,25 @@ import { BsAlipay } from "react-icons/bs";
 import { PiContactlessPayment } from "react-icons/pi";
 
 import { RiVisaLine } from "react-icons/ri";
+import axios from "axios";
 
 const OrderConfirm = () => {
   const orderDetails = useAppSelector((state: RootState) => state.orderSummary);
+  const user = useAppSelector((state: RootState) => state.auth);
 
+  const handlePayment = () => {
+    axios
+      .post(`/create-checkout-session`, {
+        orderDetails,
+        userId: user.userDetails?.email,
+      })
+      .then((res) => {
+        if (res.data.url) {
+          window.location.href = res.data.url;
+        }
+      })
+      .catch((err) => console.error(err.message));
+  };
   return (
     <>
       <div className="2xl:container 2xl:mx-auto py-14 px-4 md:px-6 xl:px-20">
@@ -156,7 +171,10 @@ const OrderConfirm = () => {
                   </p>
                 </div>
                 <div className="flex w-full justify-center items-center pt-1 md:pt-4  xl:pt-8 space-y-6 md:space-y-8 flex-col">
-                  <button className=" flex justify-center items-center gap-4 py-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800  w-full text-base font-medium leading-4 text-white bg-gray-800 hover:bg-black">
+                  <button
+                    onClick={handlePayment}
+                    className=" flex justify-center items-center gap-4 py-5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800  w-full text-base font-medium leading-4 text-white bg-gray-800 hover:bg-black"
+                  >
                     Proceed to Pay <FaCcPaypal className="text-3xl " />
                     <RiVisaLine className="text-3xl" />
                   </button>

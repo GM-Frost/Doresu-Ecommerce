@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MenuList } from "../MenuList/MenuList";
 import React from "react";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useAppDispatch } from "../../redux/hooks/Hooks";
+import { logoutAdmin } from "../../redux/features/AdminSlice";
 
 const MenuContainer = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex flex-col text-white bg-[#15212D] w-60 p-3">
@@ -28,7 +32,13 @@ const MenuContainer = () => {
           ))}
         </div>
         <div className="flex justify-center items-center">
-          <button className="rounded-sm btn btn-block btn-outline btn-accent ">
+          <button
+            onClick={() => {
+              dispatch(logoutAdmin());
+              navigate("/admin");
+            }}
+            className="rounded-sm btn btn-block btn-outline btn-accent "
+          >
             Logout <LogoutIcon />
           </button>
         </div>

@@ -1,4 +1,8 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface IOrderData {
   id: string;
@@ -36,8 +40,56 @@ export interface IOrderData {
 }
 
 const SingleOrderProps: React.FC<IOrderData> = (props) => {
+  const { orderID } = useParams<{ orderID: string }>();
+  const [order, setOrder] = useState<IOrderData | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string>("");
+  // Fetch the order details when the component mounts
+
+  console.log(order);
+  console.log(selectedStatus);
+
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8082/api/v1/orders/${orderID}`
+        );
+        setOrder(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderID]);
+
+  // Handle status change
+  const handleStatusChange = async () => {
+    if (selectedStatus === "") {
+      toast.error("Please select a status");
+      return;
+    }
+    try {
+      const updatedOrder = {
+        ...order,
+        status: selectedStatus,
+      };
+
+      await axios.put(
+        `http://localhost:8082/api/v1/orders/${orderID}`,
+        updatedOrder
+      );
+      setOrder(updatedOrder);
+      toast.success("Order Status is Changed");
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred");
+    }
+  };
+
   return (
     <>
+      <ToastContainer />
       <div className="flex justify-evenly">
         <div className="flex flex-wrap gap-5 bg-white p-5">
           <div className="flex flex-col">
@@ -67,17 +119,26 @@ const SingleOrderProps: React.FC<IOrderData> = (props) => {
             </div>
             <hr />
             <div className="flex-1 mt-4">
-              <select className="select select-primary w-full max-w-xs">
-                <option disabled selected>
+              <select
+                className="select select-primary w-full max-w-xs"
+                value={selectedStatus}
+                onChange={(e) => setSelectedStatus(e.target.value)}
+              >
+                <option disabled value="">
                   Change Status
                 </option>
-                <option>Shipped</option>
-                <option>Out For Delivery</option>
-                <option>Returned</option>
-                <option>Cancelled</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Out For Delivery">Out For Delivery</option>
+                <option value="Returned">Returned</option>
+                <option value="Cancelled">Cancelled</option>
               </select>
               <div className="justify-center items-center flex mt-5">
-                <button className="btn btn-primary text-white ">Update</button>
+                <button
+                  onClick={handleStatusChange}
+                  className="btn btn-primary text-white "
+                >
+                  Update
+                </button>
               </div>
             </div>
           </div>

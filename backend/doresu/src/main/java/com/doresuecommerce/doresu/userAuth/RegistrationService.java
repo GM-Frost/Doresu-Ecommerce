@@ -1,7 +1,7 @@
 package com.doresuecommerce.doresu.userAuth;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

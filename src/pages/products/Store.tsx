@@ -20,6 +20,7 @@ import { IProductTypes } from "../../redux/types/ProductsTypes";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "../../components/LoadingSpinner/Loader";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -460,8 +461,10 @@ const Store: React.FC = () => {
                 </form>
 
                 {/* Product grid */}
+
                 <div className="lg:col-span-3 w-full">
                   <div className="flex flex-wrap justify-center bg-white py-5">
+                    {isLoading && <Loader />}
                     {productsItems?.map((product: IProductTypes) => (
                       <ProductsCard product={product} key={product.id} />
                     ))}

@@ -1,6 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { authApi } from "../service/AuthApi";
-import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import AuthSlice from "../features/AuthSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -10,6 +9,8 @@ import ProductSelectSlice from "../features/ProductSelectSlice";
 import OrderSummarySlice from "../features/OrderSummarySlice";
 import { orderSummaryApi } from "../service/OrderApi";
 import AddressSlice from "../features/AddressSlice";
+import { adminApi } from "../service/AdminApi";
+import AdminSlice from "../features/AdminSlice";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -21,8 +22,10 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [productApi.reducerPath]: productApi.reducer,
   [orderSummaryApi.reducerPath]: orderSummaryApi.reducer,
+  [adminApi.reducerPath]: adminApi.reducer,
 
   auth: AuthSlice,
+  admin: AdminSlice,
   cart: CartSlice,
   productSelect: ProductSelectSlice,
   orderSummary: OrderSummarySlice,
@@ -37,7 +40,8 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       authApi.middleware,
       productApi.middleware,
-      orderSummaryApi.middleware
+      orderSummaryApi.middleware,
+      adminApi.middleware
     ),
 });
 

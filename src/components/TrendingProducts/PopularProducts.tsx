@@ -13,7 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setSelectedProduct } from "../../redux/features/ProductSelectSlice";
 import { useNavigate } from "react-router-dom";
-import Spinner from "../LoadingSpinner/Spinner";
+import Loader from "../LoadingSpinner/Loader";
 
 const PopularProducts = () => {
   const isNoneMobile = window.matchMedia("min-width: 600px").matches;
@@ -32,10 +32,6 @@ const PopularProducts = () => {
     dispatch(setSelectedProduct(product));
     navigate(`/product/${product.id}`);
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   const displayedProducts = productsItems;
 
@@ -62,7 +58,11 @@ const PopularProducts = () => {
             </div>
           </div>
         </div>
+
         <div className="container mx-auto px-4 sm:px-8">
+          <div className="flex justify-center items-center">
+            {isLoading && <Loader />}
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
             {displayedProducts?.map((product: IProductTypes) => (
               <div
@@ -75,6 +75,10 @@ const PopularProducts = () => {
                   className={`w-full h-auto max-h-96 max-w-full rounded-md ${
                     isNoneMobile ? "sm:w-full" : "sm:w-1/2 md:w-full"
                   }`}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://raw.githubusercontent.com/koehlersimon/fallback/master/Resources/Public/Images/placeholder.jpg"; // Provide a fallback image URL
+                  }}
                 />
                 <div
                   className={`${

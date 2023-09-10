@@ -155,6 +155,10 @@ export default function Navbar() {
   const dispatch = useAppDispatch();
   const cartProducts = useAppSelector((state: RootState) => state.cart);
 
+  const handleCategoryClick = (category, section, item, close) => {
+    navigate(`store/${category.id}/${section.id}/${item.name}`);
+    closeCartMenu();
+  };
   //CART ENDS
   return (
     <div className="bg-white">
@@ -267,12 +271,19 @@ export default function Navbar() {
                             >
                               {section.items.map((item) => (
                                 <li key={item.name} className="flow-root">
-                                  <a
-                                    href={item.href}
+                                  <p
+                                    onClick={() =>
+                                      handleCategoryClick(
+                                        category,
+                                        section,
+                                        item,
+                                        close
+                                      )
+                                    }
                                     className="-m-2 block p-2 text-gray-500"
                                   >
                                     {item.name}
-                                  </a>
+                                  </p>
                                 </li>
                               ))}
                             </ul>
@@ -491,12 +502,19 @@ export default function Navbar() {
                                                 key={item.name}
                                                 className="flex"
                                               >
-                                                <a
-                                                  href={item.href}
+                                                <p
                                                   className="hover:text-gray-800"
+                                                  onClick={() =>
+                                                    handleCategoryClick(
+                                                      category,
+                                                      section,
+                                                      item,
+                                                      close
+                                                    )
+                                                  }
                                                 >
                                                   {item.name}
-                                                </a>
+                                                </p>
                                               </li>
                                             ))}
                                           </ul>

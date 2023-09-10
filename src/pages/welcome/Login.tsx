@@ -32,7 +32,7 @@ const Login = () => {
   ] = useLoginUserMutation();
 
   //REDUX ENDS
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
@@ -61,7 +61,11 @@ const Login = () => {
       );
       navigate("/");
     }
-  }, [loginSuccess]);
+    if (loginError) {
+      toast.error("Invalid Credentials");
+      return;
+    }
+  }, [loginSuccess, loginError]);
 
   return (
     <>

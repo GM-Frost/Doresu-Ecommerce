@@ -4,13 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 
-import com.doresuecommerce.doresu.UsersModel.Role;
-import com.doresuecommerce.doresu.UsersModel.RegisterUsers;
 import com.doresuecommerce.doresu.UsersRepo.UsersRepo;
 import com.doresuecommerce.doresu.userConfig.JwtService;
 

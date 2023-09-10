@@ -23,11 +23,18 @@ import SingleUser from "./Admin/Home/UserPage/SingleUser";
 import SingleProduct from "./Admin/Home/ProductPage/SingleProduct";
 import AdminOrders from "./Admin/Home/OrderPage/AdminOrders";
 import SingleOrder from "./Admin/Home/OrderPage/SingleOrder";
+import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
+import AdminLogin from "./Admin/Login/AdminLogin";
+import AdminProtectedRoute from "./Admin/Login/AdminProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/admin",
-    element: <AdminDash />,
+    path: "/admin/dashboard",
+    element: (
+      <AdminProtectedRoute>
+        <AdminDash />
+      </AdminProtectedRoute>
+    ),
     children: [
       { index: true, element: <Dashboard /> },
       { path: "products", element: <AdminProducts /> },
@@ -42,6 +49,10 @@ const router = createBrowserRouter([
     path: "/login",
     element: <Login />,
   },
+  {
+    path: "/admin",
+    element: <AdminLogin />,
+  },
   { path: "/register", element: <Register /> },
   {
     path: "/",
@@ -53,6 +64,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/store",
+        element: <Store />,
+      },
+      {
+        path: "store/:levelOne/:levelTwo/:levelThree",
         element: <Store />,
       },
       {
@@ -74,6 +89,10 @@ const router = createBrowserRouter([
       {
         path: "/checkout/orderconfirm",
         element: <OrderConfirm />,
+      },
+      {
+        path: "/checkout-success",
+        element: <CheckoutSuccess />,
       },
     ],
   },

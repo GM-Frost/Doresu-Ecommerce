@@ -4,21 +4,11 @@ export interface IProductTypes {
   description: string;
   price: number;
   brand: string;
-  color: {
-    id: string;
-    name: string;
-  };
-  sizes: {
-    id: string;
-    name: string;
-    quantity: number;
-  }[];
-  images: {
-    id: string;
-    imageUrl: string;
-  }[];
-  category: {
-    id: string;
-    name: string;
-  };
+  color: string;
+  sizes: string[];
+  images: string[];
+  featured: string;
+  type: string;
+  preference: string;
+  category: string;
 }

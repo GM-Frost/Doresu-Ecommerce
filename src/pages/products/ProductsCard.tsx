@@ -32,6 +32,10 @@ const ProductsCard = ({ product }) => {
             alt=""
             onClick={() => viewProductDetails(product)}
             className="cursor-pointer h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+            onError={(e) => {
+              e.target.src =
+                "https://raw.githubusercontent.com/koehlersimon/fallback/master/Resources/Public/Images/placeholder.jpg"; // Provide a fallback image URL
+            }}
           />
 
           <div className="absolute top-4 end-4 z-100">
