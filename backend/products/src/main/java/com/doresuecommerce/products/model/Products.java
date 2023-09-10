@@ -28,5 +28,8 @@ public class Products {
     private String color;
     private String[] sizes; 
     private String[] images;
+    private String featured;
+    private String type;
+    private String preference;
     private String category;
 }

@@ -13,6 +13,9 @@ const initialProductState: IProducts = {
   color: "",
   sizes: [],
   images: [],
+  type: "",
+  featured: "",
+  preference: "",
   category: "",
 };
 

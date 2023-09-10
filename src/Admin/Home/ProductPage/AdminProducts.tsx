@@ -12,6 +12,8 @@ const columns: GridColDef[] = [
   { field: "brand", headerName: "Brand", width: 120 },
   { field: "color", headerName: "Color", width: 100 },
   { field: "sizes", headerName: "Sizes", width: 100 },
+  { field: "featured", headerName: "Featured", width: 100 },
+  { field: "type", headerName: "Types", width: 100 },
   { field: "category", headerName: "Category", width: 130 },
 ];
 const AdminProducts = () => {

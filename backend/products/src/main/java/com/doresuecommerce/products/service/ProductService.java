@@ -31,9 +31,6 @@ public class ProductService {
 		return productsRepo.findAll();
 	}
 
-	
-
-
     public Products updateProduct(String id, Products product) {
        
         product.setId(id);
@@ -49,7 +46,4 @@ public class ProductService {
 		return productsRepo.findById(id).orElse(null);
 	}
 
-	
-	
-	
 }
