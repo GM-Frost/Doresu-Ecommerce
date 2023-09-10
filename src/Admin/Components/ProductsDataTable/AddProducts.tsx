@@ -149,7 +149,7 @@ const AddProducts = (props: IProps) => {
       // Handle the response as needed
       if (response.status === 200) {
         toast.success("Product created successfully!");
-        // Optionally, you can reset the form or navigate to another page
+        props.setOpen(false);
       } else {
         toast.error("Failed to create the product. Please try again later.");
       }

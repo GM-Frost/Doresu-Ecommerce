@@ -9,6 +9,7 @@ import {
 import { RootState } from "../../redux/app/Store";
 import { useNavigate } from "react-router-dom";
 import { RadioGroup } from "@headlessui/react";
+import { useEffect } from "react";
 
 const CartMenu = ({ onCloseCart, isCartOpen }) => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
   }
 
   //CART AREA
+  const userAuth = useAppSelector((state: RootState) => state.auth);
   const cartProducts = useAppSelector((state: RootState) => state.cart);
   const allCartItems = useAppSelector((state: RootState) => state.cart.items);
 
@@ -61,6 +63,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
     onCloseCart(); // Close the cart
     navigate("/checkout");
   };
+
   return (
     <>
       <div
@@ -93,7 +96,7 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
                             <div className="shrink-0">
                               <img
                                 className="h-24 w-24 max-w-full rounded-lg object-cover"
-                                src={item.images[0].imageUrl}
+                                src={item.images[0]}
                                 alt={item.title}
                               />
                             </div>
@@ -192,27 +195,37 @@ const CartMenu = ({ onCloseCart, isCartOpen }) => {
 
                   <div className="mt-6 text-center">
                     {allCartItems.length > 0 ? (
-                      <button
-                        type="button"
-                        className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
-                        onClick={toCheckout}
-                      >
-                        Checkout
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          strokeWidth="2"
+                      !userAuth.token || !userAuth.userDetails ? (
+                        <button
+                          type="button"
+                          className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                          onClick={() => navigate("/login")}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"
-                          />
-                        </svg>
-                      </button>
+                          Login to Checkout
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          className="group inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-6 py-4 text-lg font-semibold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800"
+                          onClick={toCheckout}
+                        >
+                          Checkout
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="group-hover:ml-8 ml-4 h-6 w-6 transition-all"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M13 7l5 5m0 0l-5 5m5-5H6"
+                            />
+                          </svg>
+                        </button>
+                      )
                     ) : (
                       <button
                         type="button"

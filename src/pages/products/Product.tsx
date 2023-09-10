@@ -73,6 +73,7 @@ const Product = (productsItems) => {
   const selectedProduct: IProductTypes | null = useAppSelector(
     (state: RootState) => state.productSelect.selectedProduct
   );
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   //Add to Cart
 
@@ -95,12 +96,9 @@ const Product = (productsItems) => {
                 {product.breadcrumbs.map((breadcrumb) => (
                   <li key={breadcrumb.id}>
                     <div className="flex items-center">
-                      <a
-                        href={breadcrumb.href}
-                        className="mr-2 text-sm font-medium text-gray-900"
-                      >
-                        {breadcrumb.name}
-                      </a>
+                      <p className="mr-2 text-sm font-medium text-gray-900">
+                        {selectedProduct.name}
+                      </p>
                       <svg
                         width={16}
                         height={20}
@@ -130,31 +128,31 @@ const Product = (productsItems) => {
               <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
                 <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                   <img
-                    src={selectedProduct?.images[3]?.imageUrl}
-                    alt={selectedProduct?.images[3]?.id}
+                    src={selectedProduct?.images[3]}
+                    alt={selectedProduct?.images[3]}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
                 <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                   <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     <img
-                      src={selectedProduct?.images[2]?.imageUrl}
+                      src={selectedProduct?.images[2]}
                       alt={selectedProduct?.images[2]?.id}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
                   <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     <img
-                      src={selectedProduct?.images[1]?.imageUrl}
-                      alt={selectedProduct?.images[1]?.id}
+                      src={selectedProduct?.images[3]}
+                      alt={selectedProduct?.images[3]}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
                 </div>
                 <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                   <img
-                    src={selectedProduct?.images[0]?.imageUrl}
-                    alt={selectedProduct?.images[0]?.id}
+                    src={selectedProduct?.images[0]}
+                    alt={selectedProduct?.images[0]}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
@@ -213,7 +211,7 @@ const Product = (productsItems) => {
                           Color
                         </h3>
                         <p className={`text-bold font-lg `}>
-                          {selectedProduct.color.name}
+                          {selectedProduct.color}
                         </p>
                       </div>
                     </div>
@@ -233,24 +231,21 @@ const Product = (productsItems) => {
                       </div>
 
                       <RadioGroup
-                        value={selectedProduct.sizes}
-                        onChange={selectedProduct.sizes}
+                        value={selectedSize}
+                        onChange={setSelectedSize}
                         className="mt-4"
                       >
                         <RadioGroup.Label className="sr-only">
                           Choose a size
                         </RadioGroup.Label>
                         <div className="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                          {selectedProduct.sizes.map((size) => (
+                          {selectedProduct.sizes.map((size, index) => (
                             <RadioGroup.Option
-                              key={size.id}
-                              value={size.id}
-                              disabled={!size.quantity}
+                              key={index}
+                              value={size}
                               className={({ active }) =>
                                 classNames(
-                                  size.quantity
-                                    ? "cursor-pointer bg-white text-gray-900 shadow-sm"
-                                    : "cursor-not-allowed bg-gray-50 text-gray-200",
+                                  "cursor-pointer bg-white text-gray-900 shadow-sm",
                                   active ? "ring-2 ring-primary" : "",
                                   "group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6"
                                 )
@@ -258,41 +253,17 @@ const Product = (productsItems) => {
                             >
                               {({ active, checked }) => (
                                 <>
-                                  <RadioGroup.Label as="span">
-                                    {size.name}
-                                  </RadioGroup.Label>
-                                  {size.quantity ? (
-                                    <span
-                                      className={classNames(
-                                        active ? "border" : "border-2",
-                                        checked
-                                          ? "border-primary"
-                                          : "border-transparent",
-                                        "pointer-events-none absolute -inset-px rounded-md"
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                  ) : (
-                                    <span
-                                      aria-hidden="true"
-                                      className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
-                                    >
-                                      <svg
-                                        className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
-                                        viewBox="0 0 100 100"
-                                        preserveAspectRatio="none"
-                                        stroke="currentColor"
-                                      >
-                                        <line
-                                          x1={0}
-                                          y1={100}
-                                          x2={100}
-                                          y2={0}
-                                          vectorEffect="non-scaling-stroke"
-                                        />
-                                      </svg>
-                                    </span>
-                                  )}
+                                  <span>{size}</span>
+                                  <span
+                                    className={classNames(
+                                      active ? "border" : "border-2",
+                                      checked
+                                        ? "border-primary"
+                                        : "border-transparent",
+                                      "pointer-events-none absolute -inset-px rounded-md"
+                                    )}
+                                    aria-hidden="true"
+                                  />
                                 </>
                               )}
                             </RadioGroup.Option>

@@ -18,7 +18,6 @@ import OrderConfirm from "./pages/checkout/OrderConfirm";
 import AdminDash from "./Admin/Home/AdminDash";
 import Dashboard from "./Admin/Home/Dashboard";
 import AdminProducts from "./Admin/Home/ProductPage/AdminProducts";
-import ProductPage from "./Admin/Home/ProductPage/SingleProduct";
 import AdminUsers from "./Admin/Home/UserPage/AdminUsers";
 import SingleUser from "./Admin/Home/UserPage/SingleUser";
 import SingleProduct from "./Admin/Home/ProductPage/SingleProduct";

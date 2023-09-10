@@ -42,8 +42,9 @@ const OrderConfirm = () => {
               Proceed to Payment
             </h3>
             <p className="text-base leading-2 mt-4 text-gray-800">
-              <b>Order ID #{orderDetails.orderId}</b>
-              <br /> has been created. Please Proceed to Payment.
+              <b>Order ID - Created</b>
+              <br />
+              Your has been created. Please Proceed to Payment.
             </p>
             <div className="flex justify-center items-center w-full mt-8  flex-col space-y-4 ">
               {orderDetails.orderItems.map((orderItem) => (

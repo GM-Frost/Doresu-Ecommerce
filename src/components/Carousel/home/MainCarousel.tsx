@@ -6,16 +6,17 @@ const images = [
   {
     imageID: 1,
     imageURL:
-      "https://images.unsplash.com/photo-1520012410130-4d5ad71c9b66?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "https://img.freepik.com/free-vector/flat-design-fashion-template_23-2150382681.jpg?w=1800&t=st=1694321331~exp=1694321931~hmac=4d5341b1cca54a88d9e3a0e085e48ee65231f987eb2c464b6384dd7ddf7d5848",
     adVarient: {
-      title: "Holiday Special",
-      desc: "Celebrate the Holidays with our Exclusive Holiday Collection.",
+      title: "Summer Sale",
+      desc: "Don't Compromise on the Sale. Get Flat 30% off for new arrivals.",
     },
   },
+
   {
     imageID: 2,
     imageURL:
-      "https://images.unsplash.com/photo-1499939667766-4afceb292d05?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80",
+      "https://img.freepik.com/free-vector/blog-header-template-with-dark-academia-outfit-conceptwatercolor_83728-9560.jpg?w=1800&t=st=1694321135~exp=1694321735~hmac=bdd811e98055d80c0d89293d68c439ec1b13b11872c68758ce1661a34bfe95de",
     adVarient: {
       title: "Winter Collection",
       desc: "Stay Warm and Stylish with our Latest Winter Collection.",
@@ -24,10 +25,19 @@ const images = [
   {
     imageID: 3,
     imageURL:
-      "https://images.unsplash.com/photo-1552888861-cd1444d1b1e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGFzaWFuJTIwc2tpcnR8ZW58MHwwfDB8fHww&auto=format&fit=crop&w=500&q=60",
+      "https://img.freepik.com/free-vector/abstract-fashion-monsoon-sale-banner-offer-discount-business-background-free-vector_1340-22460.jpg?w=1800&t=st=1694321270~exp=1694321870~hmac=d2fd89815181ed4446432fc4a43f52cd63530adedac7d49d35923ce3b575f3bb",
     adVarient: {
-      title: "Summer Sale",
-      desc: "Don't Compromise on the Sale. Get Flat 30% off for new arrivals.",
+      title: "Holiday Special",
+      desc: "Celebrate the Holidays with our Exclusive Holiday Collection.",
+    },
+  },
+  {
+    imageID: 4,
+    imageURL:
+      "https://img.freepik.com/free-vector/hand-drawn-fashion-collection-twitter-header_23-2149985370.jpg?w=1800&t=st=1694321412~exp=1694322012~hmac=3acd3efef8bfb6c65203e49621d42f18c4143892373a22fb44df81f5bd9b087e",
+    adVarient: {
+      title: "Top Rated",
+      desc: "Find the Top Rated Products in our Collection.",
     },
   },
 ];

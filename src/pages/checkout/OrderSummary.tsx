@@ -69,13 +69,13 @@ const OrderSummary: React.FC = () => {
       productId: item.id,
       productName: item.title,
       productBrand: item.brand,
-      productColor: item.color.name,
-      productSize: item.sizes[0].name, // You may need to adjust this based on your logic
-      category: item.category.name,
+      productColor: item.color,
+      productSize: item.sizes[0], // You may need to adjust this based on your logic
+      category: item.category,
       quantity: item.count,
       price: item.price,
       subtotal: item.price * item.count,
-      images: item.images[0].imageUrl,
+      images: item.images[0],
     };
   });
 
@@ -152,12 +152,12 @@ const OrderSummary: React.FC = () => {
                       <div className="pb-4 md:pb-8 w-full md:w-40">
                         <img
                           className="w-full hidden md:block"
-                          src={item.images[0].imageUrl}
+                          src={item.images[0]}
                           alt={item.title}
                         />
                         <img
                           className="w-full h-full md:hidden"
-                          src={item.images[0].imageUrl}
+                          src={item.images[0]}
                           alt={item.title}
                         />
                       </div>
@@ -169,14 +169,16 @@ const OrderSummary: React.FC = () => {
                           <div className="flex justify-start items-start flex-col space-y-2">
                             <p className="text-sm leading-none text-gray-800">
                               <span className="text-gray-700">Catgory: </span>{" "}
-                              {item.category.name}
+                              {item.category}
                             </p>
                             <p className="text-sm leading-none text-gray-800">
-                              <span className="text-gray-700">Size: </span>
+                              <span className="text-gray-700">
+                                Size: {item.sizes[0]}
+                              </span>
                             </p>
                             <p className="text-sm leading-none text-gray-800">
                               <span className="text-gray-700">Color: </span>{" "}
-                              {item.color.name}
+                              {item.color}
                             </p>
                           </div>
                         </div>

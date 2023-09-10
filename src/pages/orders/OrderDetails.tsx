@@ -139,7 +139,7 @@ const OrderDetails: React.FC = () => {
                   <div className="space-y-2 ml-5">
                     <p className="font-bold">{orderItem.productName}</p>
                     <p className="space-x-5">
-                      <span>Color: {orderItem.productColor}</span>
+                      <span>Color: {orderItem.productSize}</span>
                       <span>Size: {orderItem.productSize}</span>
                     </p>
                     <p className="font-bold text-sm">

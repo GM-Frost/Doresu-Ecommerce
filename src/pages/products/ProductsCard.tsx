@@ -28,7 +28,7 @@ const ProductsCard = ({ product }) => {
       <div key={product.id} className="p-4 relative">
         <div className="group relative block overflow-hidden rounded-xl">
           <img
-            src={product.images[0].imageUrl}
+            src={product.images[0]}
             alt=""
             onClick={() => viewProductDetails(product)}
             className="cursor-pointer h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
@@ -45,8 +45,18 @@ const ProductsCard = ({ product }) => {
           </div>
 
           <div className="relative border border-gray-100 bg-white p-6">
-            <span className="whitespace-nowrap text-white bg-accent px-3 py-1.5 text-xs font-medium">
-              New
+            <span
+              className={`whitespace-nowrap text-white px-3 py-1.5 text-xs font-medium ${
+                product.featured === "New Arrivals"
+                  ? "bg-green-600"
+                  : product.featured === "Top Rated"
+                  ? "bg-orange-500"
+                  : product.featured === "Best Sellers"
+                  ? "bg-pink-500"
+                  : ""
+              }`}
+            >
+              {product.featured}
             </span>
 
             <h3 className="mt-4 text-lg font-medium text-gray-900">

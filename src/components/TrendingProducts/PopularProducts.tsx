@@ -70,7 +70,7 @@ const PopularProducts = () => {
                 className="flex flex-col items-center relative overflow-hidden group"
               >
                 <img
-                  src={product.images[0].imageUrl}
+                  src={product.images[0]}
                   alt={product.title}
                   className={`w-full h-auto max-h-96 max-w-full rounded-md ${
                     isNoneMobile ? "sm:w-full" : "sm:w-1/2 md:w-full"
