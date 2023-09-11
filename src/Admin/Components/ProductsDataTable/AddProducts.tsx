@@ -134,6 +134,7 @@ const AddProducts = (props: IProps) => {
       category: formData.category,
       color: formData.color,
       price: formData.price,
+      featured: formData.featured,
       preference: formData.preference,
       type: formData.type,
       sizes: formData.sizes,
@@ -148,8 +149,8 @@ const AddProducts = (props: IProps) => {
 
       // Handle the response as needed
       if (response.status === 200) {
-        toast.success("Product created successfully!");
         props.setOpen(false);
+        toast.success("Product created successfully!");
       } else {
         toast.error("Failed to create the product. Please try again later.");
       }
@@ -162,8 +163,8 @@ const AddProducts = (props: IProps) => {
   };
 
   const sizeOptions = ["small", "medium", "large", "x-large"];
-  const typeOptions = ["Clothing", "Accessories"];
-  const preferenceOptions = ["Men", "Women"];
+  const typeOptions = ["Clothing", "Accessories", "Footwear"];
+  const preferenceOptions = ["Men", "Women", "Unisex"];
   return (
     <>
       <ToastContainer />

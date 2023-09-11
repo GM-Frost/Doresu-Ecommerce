@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -164,6 +164,28 @@ export default function Navbar() {
     closeCartMenu();
   };
   //CART ENDS
+
+  const [isNavbarFixed, setIsNavbarFixed] = useState(false);
+
+  useEffect(() => {
+    // Function to handle scrolling and toggle the fixed class
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsNavbarFixed(true);
+      } else {
+        setIsNavbarFixed(false);
+      }
+    };
+
+    // Attach the scroll event listener when the component mounts
+    window.addEventListener("scroll", handleScroll);
+
+    // Remove the scroll event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="bg-white">
       {/* Mobile menu */}
@@ -387,7 +409,14 @@ export default function Navbar() {
         </Dialog>
       </Transition.Root>
 
-      <header className="relative bg-white shadow-lg z-10 ">
+      {/* <header className="relative bg-white shadow-lg z-10 "> */}
+      <header
+        className={`bg-white scroll-smooth ${
+          isNavbarFixed
+            ? "fixed w-full z-20 transition ease-in-out duration-1000"
+            : " transition ease-in-out duration-1000"
+        }`}
+      >
         <p className="flex h-10 items-center justify-center bg-[#34a4b8] px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
         </p>

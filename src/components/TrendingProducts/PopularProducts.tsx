@@ -20,6 +20,8 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../redux/features/WishlistSlice";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const PopularProducts = () => {
   const isNoneMobile = window.matchMedia("min-width: 600px").matches;
@@ -28,9 +30,12 @@ const PopularProducts = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   //const { currentData: productsItems, isLoading } = useGetProductsQuery([]);
-  const { data: productsItems, isLoading } = useGetAllProducts();
-  //Add to Cart
+
+  // State to hold the products data and loading status
+  const [productsItems, setProductsItems] = useState<IProductTypes[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const wishlist = useAppSelector((state: RootState) => state.wishlist);
 
@@ -72,6 +77,23 @@ const PopularProducts = () => {
 
   const displayedProducts = productsItems || [];
 
+  // Fetch products from the API
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8082/api/v1/products");
+      setProductsItems(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch products when the component mounts
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -101,7 +123,7 @@ const PopularProducts = () => {
             {isLoading && <Loader />}
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-8">
-            {displayedProducts?.map((product: IProductTypes) => (
+            {displayedProducts.slice(0, 12)?.map((product: IProductTypes) => (
               <div
                 key={product.id}
                 className="flex flex-col items-center relative overflow-hidden group"

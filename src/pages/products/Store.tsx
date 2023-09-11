@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -12,15 +12,12 @@ import ProductsCard from "./ProductsCard";
 import { filters, singleFilter } from "./FilterData";
 import { IoFilterSharp } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  useGetAllProducts,
-  useGetProductsQuery,
-} from "../../redux/service/ProductsApi";
 import { IProductTypes } from "../../redux/types/ProductsTypes";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../../components/LoadingSpinner/Loader";
+import axios from "axios";
 
 const sortOptions = [
   { name: "Price: Low to High", href: "#", current: false },
@@ -37,8 +34,11 @@ const Store: React.FC = () => {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // GETTING PRODUCTS
-  //const { currentData: productsdItems, isLoading } = useGetProductsQuery([]);
-  const { currentData: productsItems, isLoading } = useGetAllProducts();
+  // const { currentData: productsItems, isLoading } = useGetAllProducts();
+
+  const [productsItems, setProductsItems] = useState<IProductTypes[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   //SEARCH FILTERs STARTS
   const handleFilter = (value, sectionID) => {
     const searchParams = new URLSearchParams(location.search);
@@ -69,6 +69,22 @@ const Store: React.FC = () => {
   //SEARCH FILTERs ENDS
 
   // ADD TO CART INFORMATION
+
+  // Function to fetch products from the API
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8082/api/v1/products");
+      setProductsItems(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>

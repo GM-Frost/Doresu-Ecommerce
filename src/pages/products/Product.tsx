@@ -128,8 +128,8 @@ const Product = (productsItems) => {
               <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
                 <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                   <img
-                    src={selectedProduct?.images[3]}
-                    alt={selectedProduct?.images[3]}
+                    src={selectedProduct?.images[1]}
+                    alt={selectedProduct?.images[1]}
                     className="h-full w-full object-cover object-center"
                   />
                 </div>
@@ -137,7 +137,7 @@ const Product = (productsItems) => {
                   <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                     <img
                       src={selectedProduct?.images[2]}
-                      alt={selectedProduct?.images[2]?.id}
+                      alt={selectedProduct?.images[2]}
                       className="h-full w-full object-cover object-center"
                     />
                   </div>

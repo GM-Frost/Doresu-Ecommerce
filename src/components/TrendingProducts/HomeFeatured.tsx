@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsCartCheckFill } from "react-icons/bs";
 import { AiFillEye } from "react-icons/ai";
 import { useAppDispatch } from "../../redux/hooks/Hooks";
@@ -14,6 +14,7 @@ import {
   decreaseItemCount,
   increaseItemCount,
 } from "../../redux/features/CartSlice";
+import axios from "axios";
 
 const HomeFeatured = () => {
   const isNoneMobile = window.matchMedia("min-width: 600px").matches;
@@ -34,7 +35,10 @@ const HomeFeatured = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { data: products, isLoading } = useGetAllProducts();
+  // const { data: products, isLoading } = useGetAllProducts();
+
+  const [products, setProducts] = useState<IProductTypes[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [activeTab, setActiveTab] = useState("Top Rated");
   const [showPlus, setShowPlus] = useState(false);
@@ -65,6 +69,22 @@ const HomeFeatured = () => {
     dispatch(decreaseItemCount(itemID));
     toast.warning("Item Count Decreased");
   };
+
+  // Fetch products from the API
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("http://localhost:8082/api/v1/products");
+      setProducts(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <>
