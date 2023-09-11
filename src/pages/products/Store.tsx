@@ -65,6 +65,7 @@ const Store: React.FC = () => {
     const query = searchParams.toString();
     navigate({ search: `?${query}` });
   };
+
   //SEARCH FILTERs ENDS
 
   // ADD TO CART INFORMATION

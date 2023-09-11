@@ -11,6 +11,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../redux/app/Store";
 import { useAppDispatch, useAppSelector } from "../redux/hooks/Hooks";
 import { logout } from "../redux/features/AuthSlice";
+import { clearAddress } from "../redux/features/AddressSlice";
+import { clearCart } from "../redux/features/CartSlice";
+import { clearWishlist } from "../redux/features/WishlistSlice";
+import { clearProductSelection } from "../redux/features/ProductSelectSlice";
 
 const navigation = {
   categories: [
@@ -348,6 +352,10 @@ export default function Navbar() {
                       <div className="flow-root">
                         <a
                           onClick={() => {
+                            dispatch(clearProductSelection());
+                            dispatch(clearWishlist());
+                            dispatch(clearCart());
+                            dispatch(clearAddress());
                             dispatch(logout());
                             navigate("/");
                           }}
@@ -598,6 +606,10 @@ export default function Navbar() {
                           <li>
                             <a
                               onClick={() => {
+                                dispatch(clearProductSelection());
+                                dispatch(clearWishlist());
+                                dispatch(clearCart());
+                                dispatch(clearAddress());
                                 dispatch(logout());
                                 navigate("/");
                               }}

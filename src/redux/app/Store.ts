@@ -11,6 +11,7 @@ import { orderSummaryApi } from "../service/OrderApi";
 import AddressSlice from "../features/AddressSlice";
 import { adminApi } from "../service/AdminApi";
 import AdminSlice from "../features/AdminSlice";
+import WishlistSlice from "../features/WishlistSlice";
 
 // Redux Persist configuration
 const persistConfig = {
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   productSelect: ProductSelectSlice,
   orderSummary: OrderSummarySlice,
   address: AddressSlice,
+  wishlist: WishlistSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -7,21 +7,32 @@ import {
   useGetProductsQuery,
 } from "../../redux/service/ProductsApi";
 import { IProductTypes } from "../../redux/types/ProductsTypes";
-import { useAppDispatch } from "../../redux/hooks/Hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/Hooks";
 import { addToCart } from "../../redux/features/CartSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setSelectedProduct } from "../../redux/features/ProductSelectSlice";
 import { useNavigate } from "react-router-dom";
 import Loader from "../LoadingSpinner/Loader";
+import { RootState } from "../../redux/app/Store";
+import {
+  IWishlistItem,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../redux/features/WishlistSlice";
 
 const PopularProducts = () => {
   const isNoneMobile = window.matchMedia("min-width: 600px").matches;
+
+  const user = useAppSelector((state: RootState) => state.auth);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   //const { currentData: productsItems, isLoading } = useGetProductsQuery([]);
   const { data: productsItems, isLoading } = useGetAllProducts();
   //Add to Cart
+
+  const wishlist = useAppSelector((state: RootState) => state.wishlist);
 
   const addCart = (product: IProductTypes) => {
     dispatch(addToCart(product));
@@ -33,7 +44,33 @@ const PopularProducts = () => {
     navigate(`/product/${product.id}`);
   };
 
-  const displayedProducts = productsItems;
+  const addToWishlistHandler = (product: IProductTypes) => {
+    if (user.token === null || user.userDetails === null) {
+      toast.error("Login to add to wishlist 💘");
+      return;
+    }
+    const isAlreadyInWishlist = wishlist.items.some(
+      (item) => item.id === product.id
+    );
+
+    if (isAlreadyInWishlist) {
+      // If it's in the wishlist, remove it
+      dispatch(removeFromWishlist(product.id));
+      toast.info("Item Removed from wishlist");
+    } else {
+      // If it's not in the wishlist, add it
+      const wishlistItem: IWishlistItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        brand: product.brand,
+      };
+      dispatch(addToWishlist(wishlistItem));
+      toast.info("Item Added to wishlist");
+    }
+  };
+
+  const displayedProducts = productsItems || [];
 
   return (
     <>
@@ -92,8 +129,18 @@ const PopularProducts = () => {
                         className="text-2xl cursor-pointer hover:-translate-y-2  hover:transition-all duration-200"
                       />
                     </div>
-                    <div className="relative bg-black/40 rounded-full h-10 w-10 flex items-center justify-center text-white">
-                      <GiSelfLove className="text-2xl cursor-pointer origin-center  hover:scale-125 hover:text-red-500 hover:transition-all duration-200" />
+                    <div
+                      className={`relative ${
+                        wishlist.items?.some((item) => item.id === product.id)
+                          ? "bg-red-500/90"
+                          : "bg-black/40"
+                      } rounded-full h-10 w-10 flex items-center justify-center text-white`}
+                    >
+                      {" "}
+                      <GiSelfLove
+                        onClick={() => addToWishlistHandler(product)}
+                        className={`text-2xl cursor-pointer origin-center hover:scale-125 hover:transition-all duration-200 `}
+                      />
                     </div>
                     <div className="relative bg-black/40 rounded-full h-10 w-10 flex items-center justify-center text-white">
                       <FaEye

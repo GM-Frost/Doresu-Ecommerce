@@ -1,7 +1,7 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { AiFillEye } from "react-icons/ai";
 import { GiSelfLove } from "react-icons/gi";
-import { useAppDispatch } from "../../redux/hooks/Hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks/Hooks";
 import { addToCart } from "../../redux/features/CartSlice";
 import { IProductTypes } from "../../redux/types/ProductsTypes";
 import { setSelectedProduct } from "../../redux/features/ProductSelectSlice";
@@ -9,10 +9,20 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { RootState } from "../../redux/app/Store";
+import {
+  IWishlistItem,
+  addToWishlist,
+  removeFromWishlist,
+} from "../../redux/features/WishlistSlice";
 
 const ProductsCard = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const user = useAppSelector((state: RootState) => state.auth);
+  const wishlist = useAppSelector((state: RootState) => state.wishlist);
+
   const addCart = (product: IProductTypes) => {
     dispatch(addToCart(product));
     toast.success("Item Added to cart");
@@ -21,6 +31,32 @@ const ProductsCard = ({ product }) => {
   const viewProductDetails = (product: IProductTypes) => {
     dispatch(setSelectedProduct(product)); // Set the selected product in the ProductSelectSlice
     navigate(`/product/${product.id}`);
+  };
+
+  const addToWishlistHandler = (product: IProductTypes) => {
+    if (user.token === null || user.userDetails === null) {
+      toast.error("Login to add to wishlist 💘");
+      return;
+    }
+    const isAlreadyInWishlist = wishlist.items.some(
+      (item) => item.id === product.id
+    );
+
+    if (isAlreadyInWishlist) {
+      // If it's in the wishlist, remove it
+      dispatch(removeFromWishlist(product.id));
+      toast.info("Item Removed from wishlist");
+    } else {
+      // If it's not in the wishlist, add it
+      const wishlistItem: IWishlistItem = {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        brand: product.brand,
+      };
+      dispatch(addToWishlist(wishlistItem));
+      toast.info("Item Added to wishlist");
+    }
   };
 
   return (
@@ -44,7 +80,14 @@ const ProductsCard = ({ product }) => {
                 onClick={() => viewProductDetails(product)}
                 className="hover:text-accent text-2xl cursor-pointer"
               />
-              <GiSelfLove className="hover:text-red-500 text-2xl cursor-pointer" />
+              <GiSelfLove
+                onClick={() => addToWishlistHandler(product)}
+                className={`hover:text-red-500 text-2xl cursor-pointer ${
+                  wishlist.items?.some((item) => item.id === product.id)
+                    ? "text-red-500"
+                    : ""
+                }`}
+              />
             </div>
           </div>
 
