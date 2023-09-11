@@ -158,7 +158,6 @@ const PopularProducts = () => {
                           : "bg-black/40"
                       } rounded-full h-10 w-10 flex items-center justify-center text-white`}
                     >
-                      {" "}
                       <GiSelfLove
                         onClick={() => addToWishlistHandler(product)}
                         className={`text-2xl cursor-pointer origin-center hover:scale-125 hover:transition-all duration-200 `}

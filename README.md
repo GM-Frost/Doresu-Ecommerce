@@ -1,27 +1,96 @@
-# React + TypeScript + Vite
+# Doresu Fashion E-commerce Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is an ecommerce clothing website named "Doresu Fashion." It utilizes React with TypeScript and Vite for the frontend, Java Spring Boot for the backend, and MongoDB as the database. Additionally, it integrates the Stripe Payment Gateway for secure payments.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Responsive Design
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```
+   - Ensures a responsive design for optimal user experience across devices.
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### Login & Auth
+
+```
+    - Provides user authentication and authorization to secure user-specific actions.
+    - Utilizes JWT Tokens for user authentication.
+```
+
+### Shopping Cart Component
+
+For the Shopping Cart, the features includes:
+
+- Display Added Items :
+
+```
+    - Displays items added to the shopping cart.
+    - Allows users to add or remove items from the cart and update quantities.
+    - Calculates the subtotal, taxes, shipping fees, and final total.
+    - Stores cart data in the backend, associating it with the user's session or account.
+```
+
+- Wishlist Functionality :
+
+```
+    - Enables users to save products for later in a wishlist.
+    - Allows adding or removing products from the wishlist.
+    - Implements a wishlist management system on the backend.
+```
+
+- Checkout Functionality :
+
+```
+    - Implements a step-by-step checkout process with form validation and user-friendly feedback.
+    - Collects shipping and billing details through a customer information form.
+    - Integrates payment gateway options (e.g., Stripe, PayPal) for secure payment processing.
+    - Creates orders and associates them with user accounts or sessions.
+    - Displays a confirmation page with the order summary and order tracking information.
+```
+
+### Category for Products
+
+```
+    - Implements a category system for products to enable efficient searching and filtering.
+    - Assigns appropriate categories to each product during product creation.
+    - Develops filtering options on the frontend for users to view products by category.
+    - Creates a category listing page with featured products and popular categories.
+```
+
+## Backend (Java Spring Boot)
+
+### User Registration
+
+```
+    - Provides APIs for user registration.
+    - Generates JWT tokens for user authentication.
+```
+
+### Product Management System
+
+```
+    - Manages product information with CRUD functionality..
+    - Implements categorization and filtering of products.
+    - Offers an admin interface and API endpoints for managing products and categories.
+    - Features image upload, product description, pricing, and stock management.
+```
+
+### Sales
+
+```
+    - Stores purchase and customer details.
+
+```
+
+### State Management
+
+```
+    - Uses Redux Mutation for user registration and login.
+    - Utilizes Redux Toolkit for Cart Functionality, Wishlist, and state management.
+```
+
+Feel free to contribute to the development of this ecommerce website and help improve its functionality.
+
+### License
+
+This project is licensed under the Nayan Bastola for Free Use.
